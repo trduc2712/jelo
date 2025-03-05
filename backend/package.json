@@ -2,8 +2,9 @@
   "name": "jelo-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "cross-env NODE_ENV=development nodemon --exec node --loader ts-node/esm src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,9 +12,27 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.9",
     "nodemon": "^3.1.9",
+    "prisma": "^6.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2"
   }
 }
