@@ -48,7 +48,6 @@ const AccountProfile: React.FC = () => {
 
   return (
     <>
-      <h2 className="font-bold text-2xl !mb-4">ACCOUNT</h2>
       <Form
         initialValues={{
           email: user.email,

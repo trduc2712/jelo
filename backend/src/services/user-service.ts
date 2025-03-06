@@ -54,3 +54,26 @@ export const getUserByEmail = async (email: string) => {
 
   return foundUser;
 };
+
+export const getUserById = async (userId: number, fullInfo?: false) => {
+  const foundUser = await prisma.user.findFirst({
+    where: { id: userId },
+    select: fullInfo
+      ? undefined
+      : {
+          id: true,
+          email: true,
+          name: true,
+          role: true,
+          avatarUrl: true,
+          address: true,
+          phone: true,
+        },
+  });
+
+  if (!foundUser) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+  }
+
+  return foundUser;
+};

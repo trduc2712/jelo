@@ -88,8 +88,6 @@ const Checkout: React.FC = () => {
             />
           </Form.Item>
 
-          <Divider />
-
           <div className="!mb-6">
             <p className="!mb-1">Total: {formatCurrency(400000)}</p>
             <p className="!mb-1">Shipping fee: {formatCurrency(30000)}</p>

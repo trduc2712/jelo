@@ -1,26 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Layout,
-  Button,
-  Dropdown,
-  Avatar,
-  Modal,
-  Drawer,
-  Form,
-  Input,
-} from "antd";
-import type { MenuProps, FormProps } from "antd";
+import { Layout, Button, Dropdown, Avatar, Modal, Drawer } from "antd";
+import type { MenuProps } from "antd";
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
+import ProfileForm from "./profile-form";
 import Breadcrumb from "./breadcrumb";
 
 const { Header: AntHeader } = Layout;
-
-type FieldType = {
-  email: string;
-  name: string;
-  password: string;
-};
 
 const Header: React.FC = () => {
   const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] =
@@ -49,16 +35,6 @@ const Header: React.FC = () => {
     setIsDrawerOpen(false);
   };
 
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
-  };
-
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Failed:", errorInfo);
-  };
-
   const dropdownItems: MenuProps["items"] = [
     { key: "profile", label: "Profile", onClick: () => showDrawer() },
     {
@@ -84,45 +60,7 @@ const Header: React.FC = () => {
         </Dropdown>
       </AntHeader>
       <Drawer title="Profile" onClose={onClose} open={isDrawerOpen}>
-        <Form
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          layout="vertical"
-        >
-          <Form.Item<FieldType>
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
-            initialValue="someone@expample.com"
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item<FieldType>
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: "Please input your name!" }]}
-            initialValue="User"
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-            initialValue="password"
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item label={null}>
-            <Button type="primary" htmlType="submit" className="w-full">
-              Save changes
-            </Button>
-          </Form.Item>
-        </Form>
+        <ProfileForm />
       </Drawer>
       <Modal
         title="Confirm logout"

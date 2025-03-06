@@ -4,8 +4,16 @@ import ApiError from "../utils/ApiError.js";
 import { WHITELIST_ROUTES } from "../utils/constants.js";
 import { verifyToken } from "../utils/token-util.js";
 
-const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
-  if (WHITELIST_ROUTES.some((route) => req.path.includes(route))) {
+export interface AuthRequest extends Request {
+  userId?: number;
+}
+
+const verifyAccessToken = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (WHITELIST_ROUTES.some((route) => req.path.endsWith(route))) {
     return next();
   }
 
@@ -13,16 +21,21 @@ const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization.split(" ")[1];
 
     try {
-      verifyToken(token);
+      const decodedToken = verifyToken(token);
+      const userId = Number(decodedToken.sub);
+
+      req.userId = userId;
       next();
     } catch (err) {
-      throw new ApiError(
-        StatusCodes.UNAUTHORIZED,
-        "Token has expired or is invalid"
+      next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          "Token has expired or is invalid"
+        )
       );
     }
   } else {
-    throw new ApiError(StatusCodes.UNAUTHORIZED, "Token is missing");
+    next(new ApiError(StatusCodes.UNAUTHORIZED, "Token is missing"));
   }
 };
 

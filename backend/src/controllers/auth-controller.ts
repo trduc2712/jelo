@@ -2,10 +2,16 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../utils/ApiError.js";
 import bcrypt from "bcryptjs";
-import { createUser, getUserByEmail } from "../services/user-service.js";
+import {
+  createUser,
+  getUserByEmail,
+  getUserById,
+} from "../services/user-service.js";
 import { generateToken } from "../utils/token-util.js";
 import { updateUserRefreshToken } from "../services/auth-service.js";
 import env from "../config/environment.js";
+import { AuthRequest } from "../middlewares/auth-middleware.js";
+import { prisma } from "../config/prisma.js";
 
 export const register = async (
   req: Request,
@@ -50,16 +56,53 @@ export const login = async (
 
     await updateUserRefreshToken(user.id, refreshToken, refreshTokenExpiresAt);
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: env.NODE_ENV === "production",
-      sameSite: "strict",
-      expires: refreshTokenExpiresAt,
-    });
-
     res.status(StatusCodes.OK).json({
       message: "User authenticated successfully",
       accessToken,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getCurrentUser = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      throw new ApiError(StatusCodes.UNAUTHORIZED, "Not logged in yet");
+    }
+
+    const user = await getUserById(userId);
+
+    res.status(StatusCodes.OK).json({
+      message: "User data fetched successfully",
+      user,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const logout = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const userId = req.userId;
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { refreshToken: null, refreshTokenExpiresAt: null },
+    });
+
+    res.status(StatusCodes.OK).json({
+      message: "Log out successfully",
     });
   } catch (err) {
     next(err);
