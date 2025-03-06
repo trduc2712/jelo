@@ -111,13 +111,24 @@ const ProfileForm: React.FC = () => {
           </Form.Item>
 
           <Form.Item label={null}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="w-full">
               Save changes
             </Button>
           </Form.Item>
 
           <Form.Item label={null}>
-            <Button type="primary" danger onClick={openConfirmLogoutModal}>
+            <Button type="default" className="w-full">
+              Change password
+            </Button>
+          </Form.Item>
+
+          <Form.Item label={null} className="!mb-0">
+            <Button
+              type="primary"
+              danger
+              onClick={openConfirmLogoutModal}
+              className="w-full"
+            >
               Log out
             </Button>
           </Form.Item>
