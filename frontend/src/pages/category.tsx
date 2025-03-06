@@ -25,27 +25,27 @@ const Category: React.FC = () => {
 
     switch (path) {
       case "/categories/tops":
-        document.title = "Tops | JELO";
+        document.title = "Tops | Jelo";
         setTitle("Tops");
         break;
       case "/categories/bottoms":
-        document.title = "Bottoms | JELO";
+        document.title = "Bottoms | Jelo";
         setTitle("Bottoms");
         break;
       case "/categories/sweaters":
-        document.title = "Sweaters | JELO";
+        document.title = "Sweaters | Jelo";
         setTitle("Sweaters");
         break;
       case "/categories/hoodies":
-        document.title = "Hoodies | JELO";
+        document.title = "Hoodies | Jelo";
         setTitle("Hoodies");
         break;
       case "/categories/outerwear":
-        document.title = "Outerwear | JELO";
+        document.title = "Outerwear | Jelo";
         setTitle("Outerwear");
         break;
       case "/categories/accessories":
-        document.title = "Accessories | JELO";
+        document.title = "Accessories | Jelo";
         setTitle("Accessories");
         break;
     }

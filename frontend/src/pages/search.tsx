@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "antd";
 import type { GetProps } from "antd";
 
@@ -7,6 +7,10 @@ type SearchProps = GetProps<typeof Input.Search>;
 const { Search: AntSearch } = Input;
 
 const Search: React.FC = () => {
+  useEffect(() => {
+    document.title = "Search | Jelo";
+  }, []);
+
   const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
     console.log(info?.source, value);
 

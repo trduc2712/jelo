@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import type { FormProps } from "antd";
 import { login } from "../../api/auth-api";
 import { useNotification } from "../../contexts/notification-context";
@@ -19,7 +19,7 @@ const Login: React.FC = () => {
   const { setUser } = useAuth();
 
   useEffect(() => {
-    document.title = "Login | JELO";
+    document.title = "Login | Jelo";
   }, []);
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
@@ -37,7 +37,11 @@ const Login: React.FC = () => {
         const user = await getCurrentUser();
         setUser(user);
 
-        navigate("/");
+        if (user.role === "ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       } else {
         api.error({
           message: "Error",
@@ -82,20 +86,6 @@ const Login: React.FC = () => {
         >
           <Input.Password />
         </Form.Item>
-
-        {/* <div className="flex items-center justify-between !mb-6 hover:underline">
-          <Form.Item<FieldType>
-            className="!mb-0"
-            name="remember"
-            valuePropName="checked"
-            label={null}
-          >
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-          <Link to="forgot-password" className="!text-black">
-            Forgot password
-          </Link>
-        </div> */}
 
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit" className="w-full">

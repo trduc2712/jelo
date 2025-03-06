@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const Overview: React.FC = () => {
   useEffect(() => {
-    document.title = "Overview | JELO ADMIN";
+    document.title = "Overview | Jelo ADMIN";
   }, []);
   return (
     <>

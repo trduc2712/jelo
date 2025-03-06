@@ -20,7 +20,7 @@ const AccountProfile: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Account | JELO";
+    document.title = "Account | Jelo";
   }, []);
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {

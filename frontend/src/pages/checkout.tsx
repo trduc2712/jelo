@@ -12,7 +12,7 @@ type FieldType = {
 
 const Checkout: React.FC = () => {
   useEffect(() => {
-    document.title = "Checkout | JELO";
+    document.title = "Checkout | Jelo";
   }, []);
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {

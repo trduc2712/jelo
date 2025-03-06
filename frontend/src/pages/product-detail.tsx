@@ -7,7 +7,7 @@ const ProductDetail: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    document.title = "Product | JELO";
+    document.title = "Product | Jelo";
   }, []);
 
   const handleAddToCart = () => {

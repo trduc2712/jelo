@@ -11,7 +11,7 @@ type FieldType = {
 
 const Register: React.FC = () => {
   useEffect(() => {
-    document.title = "Register | JELO";
+    document.title = "Register | Jelo";
   }, []);
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
