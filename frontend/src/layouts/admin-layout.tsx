@@ -12,7 +12,7 @@ const AdminLayout: React.FC = () => {
       <AdminSider />
       <Layout>
         <AdminHeader />
-        <Content className="mt-[64px] !p-4 bg-gray-200 h-[2000px]">
+        <Content className="mt-[64px] !p-4 bg-gray-200">
           <div className="!p-4 bg-white">
             <Outlet />
           </div>

@@ -7,4 +7,5 @@ export interface User {
   avatarUrl?: string;
   address?: string;
   phone?: string;
+  status: "ACTIVE" | "BANNED";
 }

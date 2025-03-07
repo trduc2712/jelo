@@ -2,15 +2,12 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import type { FormProps } from "antd";
-import { login } from "../../api/auth-api";
-import { useNotification } from "../../contexts/notification-context";
-import { getCurrentUser } from "../../api/auth-api";
-import { useAuth } from "../../contexts/auth-context";
+import { login, getCurrentUser } from "../../api/auth-api";
+import { useAuth, useNotification } from "../../hooks";
 
 type FieldType = {
   email: string;
   password: string;
-  remember: string;
 };
 
 const Login: React.FC = () => {
@@ -36,6 +33,11 @@ const Login: React.FC = () => {
 
         const user = await getCurrentUser();
         setUser(user);
+
+        if (user.status === "BANNED") {
+          navigate("/banned");
+          return;
+        }
 
         if (user.role === "ADMIN") {
           navigate("/admin");
@@ -94,7 +96,7 @@ const Login: React.FC = () => {
         </Form.Item>
       </Form>
       <div className="w-full text-center hover:underline">
-        <Link to="/auth/register" className="!text-black">
+        <Link to="/auth/register" className="!text-black text-sm">
           Register
         </Link>
       </div>

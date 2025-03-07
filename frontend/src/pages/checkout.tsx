@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Form, Input, Button, Select, Divider } from "antd";
+import { Form, Input, Button, Select } from "antd";
 import type { FormProps } from "antd";
 import { formatCurrency } from "../utils/formatters";
 

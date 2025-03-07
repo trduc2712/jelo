@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Avatar, Modal } from "antd";
 import type { FormProps } from "antd";
-import { useAuth } from "../contexts/auth-context";
+import { useAuth, useNotification } from "../hooks";
 import { logout } from "../api/auth-api";
-import { useNotification } from "../contexts/notification-context";
 
 type FieldType = {
   avatarUrl: string;

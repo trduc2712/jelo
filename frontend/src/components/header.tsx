@@ -8,8 +8,8 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 import CartItems from "./cart-items";
-import ProfileForm from "./profile-form";
-import { useAuth } from "../contexts/auth-context";
+import { ProfileForm } from "./";
+import { useAuth } from "../hooks";
 
 const { Header: AntHeader } = Layout;
 
@@ -145,7 +145,7 @@ const Header: React.FC = () => {
         open={isCategoryDrawerOpen}
         placement="left"
         width={200}
-        headerStyle={{ display: "none" }}
+        styles={{ header: { display: "none" } }}
       >
         <div className="flex flex-col">
           {navbarItems.map((item) => (

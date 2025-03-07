@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../contexts/auth-context";
-import Loading from "../pages/loading";
+import { useAuth } from "../hooks";
+import { Loading } from "../pages";
 
 interface RoleBasedRouteProps {
   allowedRoles: string[];

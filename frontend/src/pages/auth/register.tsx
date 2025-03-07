@@ -63,7 +63,7 @@ const Register: React.FC = () => {
         </Form.Item>
       </Form>
       <div className="w-full text-center hover:underline">
-        <Link to="/auth/login" className="!text-black">
+        <Link to="/auth/login" className="!text-black text-sm">
           Log in
         </Link>
       </div>

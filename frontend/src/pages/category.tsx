@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Button, Pagination, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import { FilterOutlined } from "@ant-design/icons";
-import ProductList from "../components/product-list";
+import { ProductList } from "../components";
 
 const filterItems: MenuProps["items"] = [
   {

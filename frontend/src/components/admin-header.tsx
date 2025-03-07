@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Button, Tooltip, Drawer } from "antd";
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-import ProfileForm from "./profile-form";
-import Breadcrumb from "./breadcrumb";
+import { Breadcrumb, ProfileForm } from "./";
 
 const { Header: AntHeader } = Layout;
 

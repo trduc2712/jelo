@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getAllUsers } from "../../api/user-api";
-import { User } from "../../interfaces/user";
+import { getAllUsers } from "../../../api/user-api";
+import { User } from "../../../interfaces/user";
 import { Table, Tag, Button } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import type { TableProps } from "antd";
 
 const columns: TableProps<User>["columns"] = [
@@ -19,19 +20,7 @@ const columns: TableProps<User>["columns"] = [
     title: "Role",
     key: "role",
     dataIndex: "role",
-    render: (role) => (
-      <Tag
-        color={`${
-          role === "ADMIN"
-            ? "volcano"
-            : role === "MODERATOR"
-            ? "green"
-            : "geekblue"
-        }`}
-      >
-        {role}
-      </Tag>
-    ),
+    render: (role) => <Tag>{role}</Tag>,
   },
   {
     title: "Phone number",
@@ -39,16 +28,20 @@ const columns: TableProps<User>["columns"] = [
     key: "phone",
   },
   {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+    render: (status) => (
+      <Tag color={`${status === "ACTIVE" ? "green" : "red"}`}>{status}</Tag>
+    ),
+  },
+  {
     title: "Actions",
     key: "actions",
     render: () => (
       <>
-        <Button color="cyan" variant="outlined">
-          Edit
-        </Button>
-        <Button danger className="!ml-4">
-          Delete
-        </Button>
+        <Button icon={<EditOutlined />} />
+        <Button className="!ml-4" icon={<DeleteOutlined />} />
       </>
     ),
   },
@@ -67,6 +60,10 @@ const UserList: React.FC = () => {
 
     fetchAllUsers();
   }, []);
+
+  useEffect(() => {
+    console.log(users);
+  }, [users]);
 
   return (
     <>

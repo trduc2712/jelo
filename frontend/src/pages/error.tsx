@@ -20,14 +20,16 @@ const Error: React.FC<ErrorProps> = ({ statusCode, message }) => {
       <span className="text-xl font-bold text-[#bb4d00]">
         {statusCode} | {message}
       </span>
-      <Button
-        color="primary"
-        variant="outlined"
-        onClick={() => navigate("/")}
-        icon={<ArrowLeftOutlined />}
-      >
-        Return to home page
-      </Button>
+      {statusCode != 403 && (
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => navigate("/")}
+          icon={<ArrowLeftOutlined />}
+        >
+          Return to home page
+        </Button>
+      )}
     </div>
   );
 };

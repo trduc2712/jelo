@@ -1,22 +1,12 @@
 import {
   createContext,
-  useContext,
   useState,
   useEffect,
   Dispatch,
   SetStateAction,
 } from "react";
 import { getCurrentUser } from "../api/auth-api";
-
-interface User {
-  email: string;
-  name: string;
-  role: "ADMIN" | "MODERATOR" | "CUSTOMER";
-  avatarUrl?: string;
-  address?: string;
-  phone?: string;
-}
-
+import { User } from "../interfaces/user";
 interface AuthContextType {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
@@ -66,13 +56,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };

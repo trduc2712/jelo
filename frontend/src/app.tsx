@@ -3,20 +3,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import { NotificationProvider } from "./contexts/notification-context";
 import { AuthProvider } from "./contexts/auth-context";
-import AuthLayout from "./layouts/auth-layout";
-import MainLayout from "./layouts/main-layout";
-import AdminLayout from "./layouts/admin-layout";
-import Overview from "./pages/admin/overview";
-import UserList from "./pages/admin/user-list";
-import Login from "./pages/auth/login";
-import Register from "./pages/auth/register";
-import Home from "./pages/home";
-import Category from "./pages/category";
-import Search from "./pages/search";
-import Checkout from "./pages/checkout";
-import ProductDetail from "./pages/product-detail";
-import RoleBasedRoute from "./components/role-based-route";
-import Error from "./pages/error";
+import { AdminLayout, AuthLayout, MainLayout } from "./layouts";
+import {
+  CreateUser,
+  UserList,
+  Overview,
+  Login,
+  Register,
+  Category,
+  Checkout,
+  Error,
+  Home,
+  ProductDetail,
+  Search,
+} from "./pages";
+import { RoleBasedRoute } from "./components";
 
 const App: React.FC = () => {
   return (
@@ -65,6 +66,7 @@ const App: React.FC = () => {
               >
                 <Route index element={<Overview />} />
                 <Route path="users" element={<UserList />} />
+                <Route path="users/new" element={<CreateUser />} />
               </Route>
 
               <Route
@@ -74,6 +76,12 @@ const App: React.FC = () => {
                     statusCode={401}
                     message="You do not have permission to access this page."
                   />
+                }
+              />
+              <Route
+                path="/banned"
+                element={
+                  <Error statusCode={403} message="You have been banned." />
                 }
               />
               <Route

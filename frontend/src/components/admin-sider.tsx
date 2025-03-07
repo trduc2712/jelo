@@ -134,16 +134,16 @@ const Sider: React.FC = () => {
       case "/admin/":
         setSelectedKey(["overview"]);
         break;
-      case "/admin/create-user":
+      case "/admin/users/new":
         setSelectedKey(["create-user"]);
         break;
-      case "/admin/user-list":
+      case "/admin/users":
         setSelectedKey(["user-list"]);
         break;
-      case "/admin/product-list":
+      case "/admin/products":
         setSelectedKey(["product-list"]);
         break;
-      case "/admin/create-product":
+      case "/admin/product/new":
         setSelectedKey(["create-product"]);
         break;
       case "/admin/categories":
