@@ -37,6 +37,11 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum UserStatus {
+  ACTIVE
+  BANNED
+}
+
 model User {
   id                    Int    @id @default(autoincrement())
   email                 String @unique
@@ -48,6 +53,7 @@ model User {
   phone                 String
   refreshToken          String?
   refreshTokenExpiresAt DateTime?
+  status                UserStatus @default(ACTIVE)
 
   cartItems             CartItem[]
   orders                Order[]

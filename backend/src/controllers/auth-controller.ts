@@ -4,7 +4,7 @@ import ApiError from "../utils/ApiError.js";
 import bcrypt from "bcryptjs";
 import { userServices } from "../services/user-service.js";
 import { generateToken } from "../utils/token-util.js";
-import { updateUserRefreshToken } from "../services/auth-service.js";
+import { authServices } from "../services/auth-service.js";
 import env from "../config/environment.js";
 import { AuthRequest } from "../middlewares/auth-middleware.js";
 import { prisma } from "../config/prisma.js";
@@ -16,7 +16,7 @@ export const register = async (
 ): Promise<void> => {
   try {
     const userData = req.body;
-    await userServices.createUser(userData);
+    await authServices.register(userData);
 
     res.status(StatusCodes.CREATED).json({
       message: "User registered successfully",
@@ -50,7 +50,11 @@ export const login = async (
       Date.now() + 7 * 24 * 60 * 60 * 1000
     );
 
-    await updateUserRefreshToken(user.id, refreshToken, refreshTokenExpiresAt);
+    await authServices.updateUserRefreshToken(
+      user.id,
+      refreshToken,
+      refreshTokenExpiresAt
+    );
 
     res.status(StatusCodes.OK).json({
       message: "User authenticated successfully",

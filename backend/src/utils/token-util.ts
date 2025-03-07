@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import env from "../config/environment.js";
 
 export const generateToken = (userId: number, type: "access" | "refresh") => {
-  const expiresIn = type === "access" ? "15m" : "7d";
+  const expiresIn = type === "access" ? "1d" : "7d";
   const iat = dayjs().unix();
 
   const payload = {

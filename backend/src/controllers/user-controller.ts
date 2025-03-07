@@ -17,3 +17,17 @@ export const getAllUsers = async (
     next(err);
   }
 };
+
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await userServices.createUser(req.body);
+
+    res.status(StatusCodes.OK).json({ message: "Create user successfully" });
+  } catch (err) {
+    next(err);
+  }
+};

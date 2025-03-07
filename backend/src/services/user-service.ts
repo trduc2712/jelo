@@ -1,49 +1,8 @@
-import bcrypt from "bcryptjs";
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../config/prisma.js";
 import ApiError from "../utils/ApiError.js";
-import { Role } from "@prisma/client";
-
-const createUser = async ({
-  name,
-  email,
-  phone,
-  password,
-  avatarUrl = "",
-  address = "",
-}: {
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  avatarUrl?: string;
-  address?: string;
-}) => {
-  const encryptedPassword = await bcrypt.hash(password, 12);
-
-  const existingUser = await prisma.user.findFirst({ where: { email } });
-
-  if (existingUser) {
-    throw new ApiError(
-      StatusCodes.CONFLICT,
-      "Email has already been registered"
-    );
-  }
-
-  const newUser = await prisma.user.create({
-    data: {
-      email,
-      name,
-      password: encryptedPassword,
-      role: Role.CUSTOMER,
-      avatarUrl,
-      address,
-      phone,
-    },
-  });
-
-  return newUser;
-};
+import bcrypt from "bcryptjs";
+import { Role, UserStatus } from "@prisma/client";
 
 const getUserByEmail = async (email: string) => {
   const foundUser = await prisma.user.findFirst({ where: { email } });
@@ -68,6 +27,7 @@ const getUserById = async (userId: number, fullInfo?: false) => {
           avatarUrl: true,
           address: true,
           phone: true,
+          status: true,
         },
   });
 
@@ -90,6 +50,7 @@ const getAllUsers = async (fullInfo?: false) => {
           avatarUrl: true,
           address: true,
           phone: true,
+          status: true,
         },
   });
 
@@ -100,9 +61,53 @@ const getAllUsers = async (fullInfo?: false) => {
   return users;
 };
 
+const createUser = async ({
+  name,
+  email,
+  phone,
+  password,
+  role,
+  avatarUrl,
+  address,
+}: {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  role: Role;
+  avatarUrl: string;
+  address: string;
+}) => {
+  const encryptedPassword = await bcrypt.hash(password, 12);
+
+  const existingUser = await prisma.user.findFirst({ where: { email } });
+
+  if (existingUser) {
+    throw new ApiError(
+      StatusCodes.CONFLICT,
+      "Email has already been registered"
+    );
+  }
+
+  const newUser = await prisma.user.create({
+    data: {
+      email,
+      name,
+      password: encryptedPassword,
+      role,
+      avatarUrl,
+      address,
+      phone,
+      status: UserStatus.ACTIVE,
+    },
+  });
+
+  return newUser;
+};
+
 export const userServices = {
-  createUser,
   getUserByEmail,
   getUserById,
   getAllUsers,
+  createUser,
 };
