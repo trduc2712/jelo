@@ -7,6 +7,11 @@ import styled from "styled-components";
 const { Sider: AntSider } = Layout;
 
 const StyledAntSider = styled(AntSider)`
+  position: sticky !important;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+
   .ant-menu .ant-menu-item {
     margin: 0;
     width: 100%;
@@ -134,7 +139,7 @@ const Sider: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <StyledAntSider className="sticky h-screen top-0 left-0 !bg-neutral-800">
+    <StyledAntSider className="!bg-neutral-800">
       <div className="flex justify-center items-center h-[64px]">
         <h2 className="text-3xl font-bold text-[#bb4d00]">JELO</h2>
       </div>

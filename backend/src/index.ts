@@ -5,6 +5,7 @@ import corsOptions from "./config/cors.js";
 import errorHandler from "./middlewares/error-middleware.js";
 import categoryRoutes from "./routes/v1/category-route.js";
 import authRoutes from "./routes/v1/auth-route.js";
+import userRoutes from "./routes/v1/user-route.js";
 import env from "./config/environment.js";
 import verifyAccessToken from "./middlewares/auth-middleware.js";
 
@@ -25,5 +26,6 @@ app.use(verifyAccessToken);
 
 app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/users", userRoutes);
 
 app.use(errorHandler);

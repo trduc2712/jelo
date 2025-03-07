@@ -4,7 +4,7 @@ import { prisma } from "../config/prisma.js";
 import ApiError from "../utils/ApiError.js";
 import { Role } from "@prisma/client";
 
-export const createUser = async ({
+const createUser = async ({
   name,
   email,
   phone,
@@ -45,7 +45,7 @@ export const createUser = async ({
   return newUser;
 };
 
-export const getUserByEmail = async (email: string) => {
+const getUserByEmail = async (email: string) => {
   const foundUser = await prisma.user.findFirst({ where: { email } });
 
   if (!foundUser) {
@@ -55,7 +55,7 @@ export const getUserByEmail = async (email: string) => {
   return foundUser;
 };
 
-export const getUserById = async (userId: number, fullInfo?: false) => {
+const getUserById = async (userId: number, fullInfo?: false) => {
   const foundUser = await prisma.user.findFirst({
     where: { id: userId },
     select: fullInfo
@@ -76,4 +76,33 @@ export const getUserById = async (userId: number, fullInfo?: false) => {
   }
 
   return foundUser;
+};
+
+const getAllUsers = async (fullInfo?: false) => {
+  const users = await prisma.user.findMany({
+    select: fullInfo
+      ? undefined
+      : {
+          id: true,
+          email: true,
+          name: true,
+          role: true,
+          avatarUrl: true,
+          address: true,
+          phone: true,
+        },
+  });
+
+  if (users.length === 0) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "No users found");
+  }
+
+  return users;
+};
+
+export const userServices = {
+  createUser,
+  getUserByEmail,
+  getUserById,
+  getAllUsers,
 };

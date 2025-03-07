@@ -62,7 +62,7 @@ const ProfileForm: React.FC = () => {
 
   return (
     <>
-      {user ? (
+      {user && (
         <Form
           initialValues={{
             email: user.email,
@@ -117,7 +117,7 @@ const ProfileForm: React.FC = () => {
           </Form.Item>
 
           <Form.Item label={null}>
-            <Button type="default" className="w-full">
+            <Button color="primary" variant="outlined" className="w-full">
               Change password
             </Button>
           </Form.Item>
@@ -133,8 +133,6 @@ const ProfileForm: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
-      ) : (
-        "Not logged in"
       )}
       <Modal
         title="Confirm logout"

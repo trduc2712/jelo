@@ -2,11 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../utils/ApiError.js";
 import bcrypt from "bcryptjs";
-import {
-  createUser,
-  getUserByEmail,
-  getUserById,
-} from "../services/user-service.js";
+import { userServices } from "../services/user-service.js";
 import { generateToken } from "../utils/token-util.js";
 import { updateUserRefreshToken } from "../services/auth-service.js";
 import env from "../config/environment.js";
@@ -20,7 +16,7 @@ export const register = async (
 ): Promise<void> => {
   try {
     const userData = req.body;
-    await createUser(userData);
+    await userServices.createUser(userData);
 
     res.status(StatusCodes.CREATED).json({
       message: "User registered successfully",
@@ -38,7 +34,7 @@ export const login = async (
   try {
     const { email, password } = req.body;
 
-    const user = await getUserByEmail(email);
+    const user = await userServices.getUserByEmail(email);
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
@@ -77,7 +73,7 @@ export const getCurrentUser = async (
       throw new ApiError(StatusCodes.UNAUTHORIZED, "Not logged in yet");
     }
 
-    const user = await getUserById(userId);
+    const user = await userServices.getUserById(userId);
 
     res.status(StatusCodes.OK).json({
       message: "User data fetched successfully",
