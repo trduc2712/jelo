@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/auth-context";
+import Loading from "../pages/loading";
 
 interface RoleBasedRouteProps {
   allowedRoles: string[];
@@ -16,7 +17,7 @@ const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({
   const { user } = useAuth();
 
   if (user === null) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!user) {

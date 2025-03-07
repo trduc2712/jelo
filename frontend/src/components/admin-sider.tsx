@@ -72,11 +72,25 @@ const Sider: React.FC = () => {
       children: [
         {
           key: "user-list",
-          label: <Link to="/admin/user-list">User list</Link>,
+          label: <Link to="/admin/users">User list</Link>,
         },
         {
           key: "create-user",
-          label: <Link to="/admin/create-user">Create user</Link>,
+          label: <Link to="/admin/users/new">Create user</Link>,
+        },
+      ],
+    },
+    {
+      key: "orders",
+      label: "Orders",
+      children: [
+        {
+          key: "order-list",
+          label: <Link to="/admin">Order list</Link>,
+        },
+        {
+          key: "create-order",
+          label: <Link to="/admin">Create order</Link>,
         },
       ],
     },
@@ -86,11 +100,11 @@ const Sider: React.FC = () => {
       children: [
         {
           key: "product-list",
-          label: <Link to="/admin/product-list">Product list</Link>,
+          label: <Link to="/admin/products">Product list</Link>,
         },
         {
           key: "create-product",
-          label: <Link to="/admin/create-product">Create product</Link>,
+          label: <Link to="/admin/products/new">Create product</Link>,
         },
       ],
     },
@@ -100,11 +114,11 @@ const Sider: React.FC = () => {
       children: [
         {
           key: "category-list",
-          label: <Link to="/admin/category-list">Category list</Link>,
+          label: <Link to="/admin/categories">Category list</Link>,
         },
         {
           key: "create-category",
-          label: <Link to="/admin/create-category">Create category</Link>,
+          label: <Link to="/admin/categories/new">Create category</Link>,
         },
       ],
     },

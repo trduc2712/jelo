@@ -64,7 +64,7 @@ const App: React.FC = () => {
                 }
               >
                 <Route index element={<Overview />} />
-                <Route path="user-list" element={<UserList />} />
+                <Route path="users" element={<UserList />} />
               </Route>
 
               <Route
