@@ -23,31 +23,27 @@ const Login: React.FC = () => {
     const { email, password } = values;
 
     try {
-      const data: any = await login({ email, password });
+      const dataLogin: any = await login({ email, password });
 
-      if (data && !data.statusCode) {
+      if (dataLogin && !dataLogin.statusCode) {
         api.success({
           message: "Login successfully",
-          description: data.message,
+          description: dataLogin.message,
         });
 
-        const user = await getCurrentUser();
+        const dataGetCurrentUser = await getCurrentUser();
+        const user = dataGetCurrentUser.user;
         setUser(user);
 
         if (user.status === "BANNED") {
-          navigate("/banned");
-          return;
+          return navigate("/banned");
         }
 
-        if (user.role === "ADMIN") {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
+        navigate(user.role === "ADMIN" ? "/admin" : "/");
       } else {
         api.error({
           message: "Error",
-          description: data.message,
+          description: dataLogin.message,
         });
       }
     } catch (err) {

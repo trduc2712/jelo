@@ -27,7 +27,10 @@ axiosInstance.interceptors.response.use(
   },
   (err) => {
     if (err.response) {
-      console.log(err.response);
+      if (import.meta.env.DEV) {
+        console.log(err.response);
+      }
+
       return err.response;
     }
 

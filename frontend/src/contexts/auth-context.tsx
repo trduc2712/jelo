@@ -27,8 +27,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const fetchUserData = async () => {
       try {
-        const userData = await getCurrentUser();
-        setUser(userData);
+        const data = await getCurrentUser();
+        setUser(data.user);
       } catch (error) {
         setUser(null);
       }

@@ -54,8 +54,8 @@ const UserList: React.FC = () => {
     document.title = "User list | Jelo ADMIN";
 
     const fetchAllUsers = async () => {
-      const users = await getAllUsers();
-      setUsers(users);
+      const data = await getAllUsers();
+      setUsers(data.users);
     };
 
     fetchAllUsers();

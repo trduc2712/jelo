@@ -22,7 +22,7 @@ export const login = async ({
 export const getCurrentUser = async () => {
   const response = await axiosInstance.get("/auth/me");
 
-  return response.data.user;
+  return response.data;
 };
 
 export const logout = async () => {
