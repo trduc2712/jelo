@@ -12,7 +12,7 @@ type FieldType = {
 };
 
 const Register: React.FC = () => {
-  const api = useNotification();
+  const notificationApi = useNotification();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,20 +26,20 @@ const Register: React.FC = () => {
       const data = await register({ email, name, password });
 
       if (data && !data.statusCode) {
-        api.success({
+        notificationApi.success({
           message: "Success",
           description: data.message,
         });
         navigate("/auth/login");
       } else {
-        api.error({
+        notificationApi.error({
           message: "Error",
           description: data.message,
         });
       }
     } catch (err) {
       console.log(err);
-      api.error({
+      notificationApi.error({
         message: "Error",
         description: "An unexpected error occurred during the login process",
       });

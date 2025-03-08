@@ -3,13 +3,17 @@ import { ModalContext } from "../contexts";
 import { Modal } from "antd";
 
 type ModalContextType = ReturnType<typeof Modal.useModal>;
+type ModalApi = ModalContextType[0];
 
-const useModal = (): ModalContextType[0] => {
+const useModal = (): ModalApi => {
   const context = useContext(ModalContext);
+
   if (!context) {
     throw new Error("useModal must be used within a ModalProvider");
   }
-  return context[0];
+
+  const [modalApi] = context;
+  return modalApi;
 };
 
 export default useModal;

@@ -10,7 +10,7 @@ const useNotification = () => {
     );
   }
 
-  return context.api;
+  return context.notificationApi;
 };
 
 export default useNotification;

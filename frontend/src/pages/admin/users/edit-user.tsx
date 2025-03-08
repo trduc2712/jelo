@@ -4,24 +4,18 @@ import { createUser } from "../../../api/user-api";
 import { uploadImageToCloudinary } from "../../../utils/upload";
 import { useNotification } from "../../../hooks";
 import { useNavigate } from "react-router-dom";
-import { UserForm as IUserForm } from "../../../interfaces/user";
+import { UserForm as IUserForm, User } from "../../../interfaces/user";
 
 const CreateUser: React.FC = () => {
   const notificationApi = useNotification();
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Create User | Jelo";
+    document.title = "Edit User | Jelo";
   }, []);
 
   const handleCreateUser = async (userInfo: IUserForm) => {
-    const avatarUrl = userInfo.avatar
-      ? await uploadImageToCloudinary(userInfo.avatar)
-      : "";
-    const { avatar, ...restUserInfo } = userInfo;
-    const newUserInfo = { ...restUserInfo, avatarUrl };
-
-    const data = await createUser(newUserInfo);
+    const data = await createUser(userInfo);
     if (data && !data.statusCode) {
       notificationApi.success({
         message: "Success",
@@ -37,7 +31,15 @@ const CreateUser: React.FC = () => {
     }
   };
 
-  return <UserForm onFinish={handleCreateUser} />;
+  const newUser: User = {
+    id: 1,
+    email: "admin@example.com",
+    name: "John Doe",
+    password: "securepassword123",
+    role: "ADMIN",
+  };
+
+  return <UserForm onFinish={handleCreateUser} initialValues={newUser} />;
 };
 
 export default CreateUser;

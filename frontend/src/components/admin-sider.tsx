@@ -63,8 +63,8 @@ const Sider: React.FC = () => {
 
   const sidebarItems: MenuProps["items"] = [
     {
-      key: "overview",
-      label: <Link to="/admin">Overview</Link>,
+      key: "dashboard",
+      label: <Link to="/admin">Dashboard</Link>,
     },
     {
       key: "users",
@@ -72,11 +72,11 @@ const Sider: React.FC = () => {
       children: [
         {
           key: "user-list",
-          label: <Link to="/admin/users">User list</Link>,
+          label: <Link to="/admin/users">User List</Link>,
         },
         {
           key: "create-user",
-          label: <Link to="/admin/users/new">Create user</Link>,
+          label: <Link to="/admin/users/new">Create User</Link>,
         },
       ],
     },
@@ -86,11 +86,11 @@ const Sider: React.FC = () => {
       children: [
         {
           key: "order-list",
-          label: <Link to="/admin">Order list</Link>,
+          label: <Link to="/admin">Order List</Link>,
         },
         {
           key: "create-order",
-          label: <Link to="/admin">Create order</Link>,
+          label: <Link to="/admin">Create Order</Link>,
         },
       ],
     },
@@ -100,11 +100,11 @@ const Sider: React.FC = () => {
       children: [
         {
           key: "product-list",
-          label: <Link to="/admin/products">Product list</Link>,
+          label: <Link to="/admin/products">Product List</Link>,
         },
         {
           key: "create-product",
-          label: <Link to="/admin/products/new">Create product</Link>,
+          label: <Link to="/admin/products/new">Create Product</Link>,
         },
       ],
     },
@@ -114,11 +114,11 @@ const Sider: React.FC = () => {
       children: [
         {
           key: "category-list",
-          label: <Link to="/admin/categories">Category list</Link>,
+          label: <Link to="/admin/categories">Category List</Link>,
         },
         {
           key: "create-category",
-          label: <Link to="/admin/categories/new">Create category</Link>,
+          label: <Link to="/admin/categories/new">Create Category</Link>,
         },
       ],
     },
@@ -129,10 +129,10 @@ const Sider: React.FC = () => {
 
     switch (path) {
       case "/admin":
-        setSelectedKey(["overview"]);
+        setSelectedKey(["dashboard"]);
         break;
       case "/admin/":
-        setSelectedKey(["overview"]);
+        setSelectedKey(["dashboard"]);
         break;
       case "/admin/users/new":
         setSelectedKey(["create-user"]);

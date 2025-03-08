@@ -1,6 +1,6 @@
 export { default as CreateUser } from "./admin/users/create-user";
 export { default as UserList } from "./admin/users/user-list";
-export { default as Overview } from "./admin/overview";
+export { default as Dashboard } from "./admin/dashboard";
 export { default as Login } from "./auth/login";
 export { default as Register } from "./auth/register";
 export { default as Category } from "./category";

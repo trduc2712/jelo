@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { getAllUsers, deleteUserById } from "../../../api/user-api";
 import { User } from "../../../interfaces/user";
-import { Table, Tag, Button } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Table, Tag, Button, Avatar } from "antd";
+import { DeleteOutlined, EditOutlined, UserOutlined } from "@ant-design/icons";
 import type { TableProps } from "antd";
 import { useNotification, useModal } from "../../../hooks";
 
 const UserList: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const api = useNotification();
-  const modal = useModal();
+  const notificationApi = useNotification();
+  const modalApi = useModal();
 
   const fetchAllUsers = async () => {
     const data = await getAllUsers();
-    setUsers(data.users);
+    let users: User[] = data.users;
+    users = users.map((user) => ({ ...user, key: user.id }));
+    setUsers(users);
   };
 
   useEffect(() => {
-    document.title = "User List | Jelo ADMIN";
+    document.title = "User List | Jelo Admin";
     fetchAllUsers();
   }, []);
 
   const openConfirmDeleteUserModal = (userId: number) => {
-    modal.confirm({
+    modalApi.confirm({
       title: "Confirm delettion",
       content: `Are you sure you want to delete user with ID ${userId}?`,
       onOk: () => {
@@ -36,14 +38,14 @@ const UserList: React.FC = () => {
     const data = await deleteUserById(userId);
 
     if (data && !data.statusCode) {
-      api.success({
+      notificationApi.success({
         message: "Success",
         description: data.message,
       });
 
       fetchAllUsers();
     } else {
-      api.error({
+      notificationApi.error({
         message: "Error",
         description: data.message,
       });
@@ -57,6 +59,24 @@ const UserList: React.FC = () => {
       key: "id",
     },
     {
+      title: "Avatar",
+      dataIndex: "avatarUrl",
+      key: "avatar",
+      render: (avatarUrl) => (
+        <div className="w-[50px] h-[50px]">
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt="User's avatar"
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <Avatar icon={<UserOutlined />} shape="square" size={50} />
+          )}
+        </div>
+      ),
+    },
+    {
       title: "Email",
       dataIndex: "email",
       key: "email",
@@ -65,7 +85,6 @@ const UserList: React.FC = () => {
       title: "Role",
       key: "role",
       dataIndex: "role",
-      render: (role) => <Tag>{role}</Tag>,
     },
     {
       title: "Status",
@@ -91,13 +110,7 @@ const UserList: React.FC = () => {
     },
   ];
 
-  return (
-    <Table<User>
-      bordered
-      columns={columns}
-      dataSource={users.map((user) => ({ ...user, key: user.id }))}
-    />
-  );
+  return <Table<User> columns={columns} dataSource={users} />;
 };
 
 export default UserList;

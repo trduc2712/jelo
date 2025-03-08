@@ -18,8 +18,8 @@ const ProfileForm: React.FC = () => {
   const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] =
     useState(false);
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
-  const api = useNotification();
+  const { user, setUser, isAuthenticated } = useAuth();
+  const notificationApi = useNotification();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
@@ -36,7 +36,7 @@ const ProfileForm: React.FC = () => {
     const data = await logout();
 
     if (data && !data.statusCode) {
-      api.success({
+      notificationApi.success({
         message: "Success",
         description: data.message,
       });
@@ -44,7 +44,7 @@ const ProfileForm: React.FC = () => {
       setUser(null);
       navigate("/auth/login");
     } else {
-      api.error({
+      notificationApi.error({
         message: "Error",
         description: data.message,
       });

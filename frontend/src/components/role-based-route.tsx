@@ -14,17 +14,13 @@ const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({
   redirectPath,
   children,
 }) => {
-  const { user } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
-  if (user === null) {
+  if (!isAuthenticated) {
     return <Loading />;
   }
 
-  if (!user) {
-    return <Navigate to={redirectPath} replace />;
-  }
-
-  if (!allowedRoles.includes(user.role)) {
+  if (user && !allowedRoles.includes(user.role)) {
     return <Navigate to={redirectPath} replace />;
   }
 

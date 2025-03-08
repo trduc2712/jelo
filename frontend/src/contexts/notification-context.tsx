@@ -3,7 +3,7 @@ import { notification } from "antd";
 import type { NotificationInstance } from "antd/es/notification/interface";
 
 interface NotificationContextType {
-  api: NotificationInstance;
+  notificationApi: NotificationInstance;
 }
 
 export const NotificationContext =
@@ -12,10 +12,10 @@ export const NotificationContext =
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [api, contextHolder] = notification.useNotification();
+  const [notificationApi, contextHolder] = notification.useNotification();
 
   return (
-    <NotificationContext.Provider value={{ api }}>
+    <NotificationContext.Provider value={{ notificationApi }}>
       {contextHolder}
       {children}
     </NotificationContext.Provider>

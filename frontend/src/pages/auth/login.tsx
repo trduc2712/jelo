@@ -11,7 +11,7 @@ type FieldType = {
 };
 
 const Login: React.FC = () => {
-  const api = useNotification();
+  const notificationApi = useNotification();
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
       const dataLogin = await login({ email, password });
 
       if (dataLogin && !dataLogin.statusCode) {
-        api.success({
+        notificationApi.success({
           message: "Success",
           description: dataLogin.message,
         });
@@ -41,14 +41,14 @@ const Login: React.FC = () => {
 
         navigate(user.role === "ADMIN" ? "/admin" : "/");
       } else {
-        api.error({
+        notificationApi.error({
           message: "Error",
           description: dataLogin.message,
         });
       }
     } catch (err) {
       console.log(err);
-      api.error({
+      notificationApi.error({
         message: "Error",
         description: "An unexpected error occurred during the login process",
       });

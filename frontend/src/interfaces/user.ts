@@ -7,5 +7,9 @@ export interface User {
   avatarUrl?: string;
   address?: string;
   phone?: string;
-  status: "ACTIVE" | "BANNED";
+  status?: "ACTIVE" | "BANNED";
+}
+
+export interface UserForm extends Omit<User, "avatarUrl"> {
+  avatar?: File;
 }
