@@ -47,3 +47,20 @@ export const deleteUserById = async (
     next(err);
   }
 };
+
+export const editUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = Number(req.params.id);
+    let newUserData = req.body;
+    newUserData = { ...newUserData, userId };
+    await userServices.editUser(newUserData);
+
+    res.status(StatusCodes.OK).json({ message: "Update user successfully" });
+  } catch (err) {
+    next(err);
+  }
+};

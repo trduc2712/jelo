@@ -115,10 +115,54 @@ const deleteUserById = async (userId: number) => {
   await prisma.user.delete({ where: { id: userId } });
 };
 
+const editUser = async ({
+  userId,
+  name,
+  password,
+  role,
+  avatarUrl,
+  address,
+  phone,
+  status,
+}: {
+  userId: number;
+  name: string;
+  phone: string;
+  password: string;
+  role: Role;
+  avatarUrl: string;
+  address: string;
+  status: UserStatus;
+}) => {
+  const existingUser = await prisma.user.findFirst({ where: { id: userId } });
+  const encryptedPassword = await bcrypt.hash(password, 12);
+  const newUserData = {
+    name,
+    phone,
+    password: encryptedPassword,
+    role,
+    avatarUrl,
+    address,
+    status,
+  };
+
+  if (!existingUser) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: newUserData,
+  });
+
+  return updatedUser;
+};
+
 export const userServices = {
   getUserByEmail,
   getUserById,
   getAllUsers,
   createUser,
   deleteUserById,
+  editUser,
 };
