@@ -5,8 +5,6 @@ import bcrypt from "bcryptjs";
 import { userServices } from "../services/user-service.js";
 import { generateToken } from "../utils/token-util.js";
 import { authServices } from "../services/auth-service.js";
-import env from "../config/environment.js";
-import { AuthRequest } from "../middlewares/auth-middleware.js";
 import { prisma } from "../config/prisma.js";
 
 export const register = async (
@@ -66,12 +64,12 @@ export const login = async (
 };
 
 export const getCurrentUser = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.userId;
+    const userId = req.body.userId;
 
     if (!userId) {
       throw new ApiError(StatusCodes.UNAUTHORIZED, "Not logged in yet");
@@ -89,12 +87,12 @@ export const getCurrentUser = async (
 };
 
 export const logout = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.userId;
+    const userId = req.body.userId;
 
     await prisma.user.update({
       where: { id: userId },

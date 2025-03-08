@@ -4,12 +4,8 @@ import ApiError from "../utils/ApiError.js";
 import { WHITELIST_ROUTES } from "../utils/constants.js";
 import { verifyToken } from "../utils/token-util.js";
 
-export interface AuthRequest extends Request {
-  userId?: number;
-}
-
 const verifyAccessToken = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -24,7 +20,7 @@ const verifyAccessToken = async (
       const decodedToken = verifyToken(token);
       const userId = Number(decodedToken.sub);
 
-      req.userId = userId;
+      req.body.userId = userId;
       next();
     } catch (err) {
       next(

@@ -105,9 +105,20 @@ const createUser = async ({
   return newUser;
 };
 
+const deleteUserById = async (userId: number) => {
+  const existingUser = await prisma.user.findFirst({ where: { id: userId } });
+
+  if (!existingUser) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+  }
+
+  await prisma.user.delete({ where: { id: userId } });
+};
+
 export const userServices = {
   getUserByEmail,
   getUserById,
   getAllUsers,
   createUser,
+  deleteUserById,
 };
