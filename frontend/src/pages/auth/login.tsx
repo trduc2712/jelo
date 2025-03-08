@@ -26,11 +26,6 @@ const Login: React.FC = () => {
       const dataLogin = await login({ email, password });
 
       if (dataLogin && !dataLogin.statusCode) {
-        notificationApi.success({
-          message: "Success",
-          description: dataLogin.message,
-        });
-
         const dataGetCurrentUser = await getCurrentUser();
         const user = dataGetCurrentUser.user;
         setUser(user);
@@ -39,6 +34,13 @@ const Login: React.FC = () => {
           return navigate("/banned");
         }
 
+        notificationApi.success({
+          message: "Success",
+          description:
+            user.role === "ADMIN"
+              ? "Welcome back, administrator!"
+              : dataLogin.message,
+        });
         navigate(user.role === "ADMIN" ? "/admin" : "/");
       } else {
         notificationApi.error({
@@ -80,7 +82,7 @@ const Login: React.FC = () => {
 
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit" className="w-full">
-            Log in
+            Log In
           </Button>
         </Form.Item>
       </Form>

@@ -8,10 +8,10 @@ type BreadcrumbProps = {
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ className }) => {
   const breadcrumbItems = [
     {
-      title: "Breadcrumb item",
+      title: "Admin Panel",
     },
     {
-      title: "Breadcrumb item",
+      title: "User List",
     },
   ];
   return (

@@ -19,8 +19,8 @@ const verifyAccessToken = async (
     try {
       const decodedToken = verifyToken(token);
       const userId = Number(decodedToken.sub);
+      (req as any).userId = userId;
 
-      req.body.userId = userId;
       next();
     } catch (err) {
       next(

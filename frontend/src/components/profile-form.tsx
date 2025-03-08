@@ -18,7 +18,7 @@ const ProfileForm: React.FC = () => {
   const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] =
     useState(false);
   const navigate = useNavigate();
-  const { user, setUser, isAuthenticated } = useAuth();
+  const { user, setUser } = useAuth();
   const notificationApi = useNotification();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
@@ -111,13 +111,13 @@ const ProfileForm: React.FC = () => {
 
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit" className="w-full">
-              Save changes
+              Save Changes
             </Button>
           </Form.Item>
 
           <Form.Item label={null}>
             <Button color="primary" variant="outlined" className="w-full">
-              Change password
+              Change Password
             </Button>
           </Form.Item>
 
@@ -128,7 +128,7 @@ const ProfileForm: React.FC = () => {
               onClick={openConfirmLogoutModal}
               className="w-full"
             >
-              Log out
+              Log Out
             </Button>
           </Form.Item>
         </Form>
@@ -138,7 +138,7 @@ const ProfileForm: React.FC = () => {
         open={isConfirmLogoutModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        okText="Log out"
+        okText="Log Out"
         cancelText="No"
       >
         Are you sure you want to log out?

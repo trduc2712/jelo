@@ -20,3 +20,11 @@
 .ant-drawer-content .ant-drawer-header button:hover {
   color: #ccc;
 }
+
+:where(.css-dev-only-do-not-override-gs4ox2).ant-form-item
+  .ant-form-item-label
+  > label.ant-form-item-required:not(
+    .ant-form-item-required-mark-optional
+  )::before {
+  display: none;
+}

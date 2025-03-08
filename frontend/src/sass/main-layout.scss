@@ -1,0 +1,35 @@
+.navbar {
+  .ant-menu-submenu {
+    .ant-menu-submenu-title {
+      span a {
+        color: #000 !important;
+      }
+
+      &:hover {
+        span a {
+          color: #bb4d00 !important;
+        }
+      }
+
+      &:active {
+        background-color: #fff !important;
+      }
+    }
+  }
+}
+
+.ant-menu-light {
+  &.ant-menu-horizontal {
+    > .ant-menu-item::after,
+    > .ant-menu-submenu::after {
+      display: none !important;
+    }
+  }
+
+  > .ant-menu.ant-menu-horizontal {
+    > .ant-menu-item::after,
+    > .ant-menu-submenu::after {
+      display: none !important;
+    }
+  }
+}

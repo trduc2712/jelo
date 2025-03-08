@@ -69,7 +69,7 @@ export const getCurrentUser = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.body.userId;
+    const userId = (req as any).userId;
 
     if (!userId) {
       throw new ApiError(StatusCodes.UNAUTHORIZED, "Not logged in yet");
@@ -92,7 +92,7 @@ export const logout = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.body.userId;
+    const userId = (req as any).userId;
 
     await prisma.user.update({
       where: { id: userId },

@@ -1,5 +1,6 @@
 export { default as AdminHeader } from "./admin-header";
-export { default as AdminSider } from "./admin-sider";
+export { default as AdminNavMenu } from "./admin-nav-menu";
+export { default as AdminSidebar } from "./admin-sidebar";
 export { default as Breadcrumb } from "./breadcrumb";
 export { default as CartItems } from "./cart-items";
 export { default as Header } from "./header";

@@ -14,9 +14,9 @@ const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({
   redirectPath,
   children,
 }) => {
-  const { isAuthenticated, user } = useAuth();
+  const { user } = useAuth();
 
-  if (!isAuthenticated) {
+  if (user === null) {
     return <Loading />;
   }
 
