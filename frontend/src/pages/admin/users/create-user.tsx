@@ -8,7 +8,7 @@ const CreateUser: React.FC = () => {
   const api = useNotification();
 
   useEffect(() => {
-    document.title = "Create user | Jelo";
+    document.title = "Create User | Jelo";
   }, []);
 
   const handleCreateUser = async (userInfo: any) => {

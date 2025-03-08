@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import type { FormProps } from "antd";
+import { useNotification } from "../../hooks";
+import { register } from "../../api/auth-api";
 
 type FieldType = {
   email: string;
@@ -10,18 +12,38 @@ type FieldType = {
 };
 
 const Register: React.FC = () => {
+  const api = useNotification();
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Register | Jelo";
   }, []);
 
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
-  };
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    const { email, name, password } = values;
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Failed:", errorInfo);
+    try {
+      const data = await register({ email, name, password });
+
+      if (data && !data.statusCode) {
+        api.success({
+          message: "Success",
+          description: data.message,
+        });
+        navigate("/auth/login");
+      } else {
+        api.error({
+          message: "Error",
+          description: data.message,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      api.error({
+        message: "Error",
+        description: "An unexpected error occurred during the login process",
+      });
+    }
   };
 
   return (
@@ -29,7 +51,6 @@ const Register: React.FC = () => {
       <Form
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         layout="vertical"
       >
         <Form.Item<FieldType>

@@ -23,11 +23,11 @@ const Login: React.FC = () => {
     const { email, password } = values;
 
     try {
-      const dataLogin: any = await login({ email, password });
+      const dataLogin = await login({ email, password });
 
       if (dataLogin && !dataLogin.statusCode) {
         api.success({
-          message: "Login successfully",
+          message: "Success",
           description: dataLogin.message,
         });
 
@@ -55,18 +55,11 @@ const Login: React.FC = () => {
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Login failed:", errorInfo);
-  };
-
   return (
     <div>
       <Form
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         layout="vertical"
       >
         <Form.Item<FieldType>

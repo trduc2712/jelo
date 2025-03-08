@@ -7,14 +7,14 @@ import ApiError from "../utils/ApiError.js";
 const register = async ({
   name,
   email,
-  phone,
+  phone = "",
   password,
   avatarUrl = "",
   address = "",
 }: {
   name: string;
   email: string;
-  phone: string;
+  phone?: string;
   password: string;
   avatarUrl?: string;
   address?: string;
