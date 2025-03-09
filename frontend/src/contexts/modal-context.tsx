@@ -1,5 +1,5 @@
-import React, { createContext } from "react";
-import { Modal } from "antd";
+import React, { createContext } from 'react';
+import { Modal } from 'antd';
 
 type ModalContextType = ReturnType<typeof Modal.useModal>;
 

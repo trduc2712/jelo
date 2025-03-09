@@ -1,6 +1,6 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AdminLayout, AuthLayout, MainLayout } from "./layouts";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AdminLayout, AuthLayout, MainLayout } from './layouts';
 import {
   CreateUser,
   UserList,
@@ -13,8 +13,8 @@ import {
   Home,
   ProductDetail,
   Search,
-} from "./pages";
-import { RoleBasedRoute, Provider } from "./components";
+} from './pages';
+import { RoleBasedRoute, Provider } from './components';
 
 const App: React.FC = () => {
   return (
@@ -38,13 +38,11 @@ const App: React.FC = () => {
             path="/admin"
             element={
               <RoleBasedRoute
-                allowedRoles={["ADMIN", "MODERATOR"]}
-                redirectPath="/unauthorized"
-              >
+                allowedRoles={['ADMIN', 'MODERATOR']}
+                redirectPath="/unauthorized">
                 <AdminLayout />
               </RoleBasedRoute>
-            }
-          >
+            }>
             <Route index element={<Dashboard />} />
             <Route path="users" element={<UserList />} />
             <Route path="users/new" element={<CreateUser />} />
@@ -67,9 +65,7 @@ const App: React.FC = () => {
 
           <Route
             path="*"
-            element={
-              <Error statusCode={404} message="Page can not be found." />
-            }
+            element={<Error statusCode={404} message="Page cannot be found." />}
           />
         </Routes>
       </BrowserRouter>

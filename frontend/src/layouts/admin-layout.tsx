@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { Layout } from "antd";
-import { AdminHeader, AdminSidebar } from "../components";
+import React, { useEffect, useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import { Layout } from 'antd';
+import { AdminHeader, AdminSidebar } from '../components';
 
 const { Content } = Layout;
 
 const AdminLayout: React.FC = () => {
-  const [title, setTitle] = useState<string>("Title");
+  const [title, setTitle] = useState<string>('Title');
   const [isSidebarHidden, setIsSidebarHidden] = useState<boolean>(false);
 
   const location = useLocation();
 
   const pathToTitle: Record<string, string> = {
-    "/admin": "Dashboard",
-    "/admin/users": "User List",
-    "/admin/users/new": "Create User",
+    '/admin': 'Dashboard',
+    '/admin/users': 'User List',
+    '/admin/users/new': 'Create User',
   };
 
   useEffect(() => {

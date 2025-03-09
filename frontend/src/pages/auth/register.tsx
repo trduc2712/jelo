@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Form, Input, Button } from "antd";
-import type { FormProps } from "antd";
-import { useNotification } from "../../hooks";
-import { register } from "../../api/auth-api";
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, Input, Button } from 'antd';
+import type { FormProps } from 'antd';
+import { useNotification } from '../../hooks';
+import { register } from '../../api/auth-api';
 
 type FieldType = {
   email: string;
@@ -16,10 +16,10 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Register | Jelo";
+    document.title = 'Register | Jelo';
   }, []);
 
-  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const onFinish: FormProps<FieldType>['onFinish'] = async values => {
     const { email, name, password } = values;
 
     try {
@@ -27,21 +27,21 @@ const Register: React.FC = () => {
 
       if (data && !data.statusCode) {
         notificationApi.success({
-          message: "Success",
+          message: 'Success',
           description: data.message,
         });
-        navigate("/auth/login");
+        navigate('/auth/login');
       } else {
         notificationApi.error({
-          message: "Error",
+          message: 'Error',
           description: data.message,
         });
       }
     } catch (err) {
       console.log(err);
       notificationApi.error({
-        message: "Error",
-        description: "An unexpected error occurred during the login process",
+        message: 'Error',
+        description: 'An unexpected error occurred during the login process',
       });
     }
   };
@@ -51,29 +51,25 @@ const Register: React.FC = () => {
       <Form
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        layout="vertical"
-      >
+        layout="vertical">
         <Form.Item<FieldType>
           label="Email"
           name="email"
-          rules={[{ required: true, message: "Please input your email!" }]}
-        >
+          rules={[{ required: true, message: 'Please input your email!' }]}>
           <Input />
         </Form.Item>
 
         <Form.Item<FieldType>
           label="Name"
           name="name"
-          rules={[{ required: true, message: "Please input your name!" }]}
-        >
+          rules={[{ required: true, message: 'Please input your name!' }]}>
           <Input />
         </Form.Item>
 
         <Form.Item<FieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
+          rules={[{ required: true, message: 'Please input your password!' }]}>
           <Input.Password />
         </Form.Item>
 

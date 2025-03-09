@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 const Dashboard: React.FC = () => {
   useEffect(() => {
-    document.title = "Dashboard | Jelo Admin";
+    document.title = 'Dashboard | Jelo Admin';
   }, []);
   return (
     <>

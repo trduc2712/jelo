@@ -1,6 +1,6 @@
-import React from "react";
-import { ConfigProvider } from "antd";
-import { AuthProvider, ModalProvider, NotificationProvider } from "../contexts";
+import React from 'react';
+import { ConfigProvider } from 'antd';
+import { AuthProvider, ModalProvider, NotificationProvider } from '../contexts';
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -11,12 +11,11 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#bb4d00",
+          colorPrimary: '#bb4d00',
           borderRadius: 0,
-          fontFamily: "Arial",
+          fontFamily: 'Arial',
         },
-      }}
-    >
+      }}>
       <AuthProvider>
         <ModalProvider>
           <NotificationProvider>{children}</NotificationProvider>

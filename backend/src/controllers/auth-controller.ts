@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import ApiError from "../utils/ApiError.js";
-import bcrypt from "bcryptjs";
-import { userServices } from "../services/user-service.js";
-import { generateToken } from "../utils/token-util.js";
-import { authServices } from "../services/auth-service.js";
-import { prisma } from "../config/prisma.js";
+import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import ApiError from '../utils/ApiError.js';
+import bcrypt from 'bcryptjs';
+import { userServices } from '../services/user-service.js';
+import { generateToken } from '../utils/token-util.js';
+import { authServices } from '../services/auth-service.js';
+import { prisma } from '../config/prisma.js';
 
 export const register = async (
   req: Request,
@@ -17,7 +17,7 @@ export const register = async (
     await authServices.register(userData);
 
     res.status(StatusCodes.CREATED).json({
-      message: "User registered successfully",
+      message: 'User registered successfully',
     });
   } catch (err) {
     next(err);
@@ -38,12 +38,12 @@ export const login = async (
     if (!isPasswordMatch) {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
-        "Incorrect email or password"
+        'Incorrect email or password'
       );
     }
 
-    const accessToken = generateToken(user.id, "access");
-    const refreshToken = generateToken(user.id, "refresh");
+    const accessToken = generateToken(user.id, 'access');
+    const refreshToken = generateToken(user.id, 'refresh');
     const refreshTokenExpiresAt = new Date(
       Date.now() + 7 * 24 * 60 * 60 * 1000
     );
@@ -55,7 +55,7 @@ export const login = async (
     );
 
     res.status(StatusCodes.OK).json({
-      message: "User authenticated successfully",
+      message: 'User authenticated successfully',
       accessToken,
     });
   } catch (err) {
@@ -72,13 +72,13 @@ export const getCurrentUser = async (
     const userId = (req as any).userId;
 
     if (!userId) {
-      throw new ApiError(StatusCodes.UNAUTHORIZED, "Not logged in yet");
+      throw new ApiError(StatusCodes.UNAUTHORIZED, 'Not logged in yet');
     }
 
     const user = await userServices.getUserById(userId);
 
     res.status(StatusCodes.OK).json({
-      message: "User data fetched successfully",
+      message: 'User data fetched successfully',
       user,
     });
   } catch (err) {
@@ -100,7 +100,7 @@ export const logout = async (
     });
 
     res.status(StatusCodes.OK).json({
-      message: "Log out successfully",
+      message: 'Log out successfully',
     });
   } catch (err) {
     next(err);

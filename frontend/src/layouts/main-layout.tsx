@@ -1,9 +1,9 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import { Layout } from "antd";
-import Header from "../components/header";
-import Breadcrumb from "../components/breadcrumb";
-import "../sass/main-layout.scss";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { Layout } from 'antd';
+import Header from '../components/header';
+import Breadcrumb from '../components/breadcrumb';
+import '../sass/main-layout.scss';
 
 const { Content } = Layout;
 

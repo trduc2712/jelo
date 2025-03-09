@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { userServices } from "../services/user-service.js";
+import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { userServices } from '../services/user-service.js';
 
 export const getAllUsers = async (
   req: Request,
@@ -12,7 +12,7 @@ export const getAllUsers = async (
 
     res
       .status(StatusCodes.OK)
-      .json({ message: "Get all users successfully", users });
+      .json({ message: 'Get all users successfully', users });
   } catch (err) {
     next(err);
   }
@@ -27,7 +27,7 @@ export const createUser = async (
     const user = req.body;
     await userServices.createUser(user);
 
-    res.status(StatusCodes.OK).json({ message: "Create user successfully" });
+    res.status(StatusCodes.OK).json({ message: 'Create user successfully' });
   } catch (err) {
     next(err);
   }
@@ -39,10 +39,17 @@ export const deleteUserById = async (
   next: NextFunction
 ) => {
   try {
-    const userId = req.params.id;
-    await userServices.deleteUserById(Number(userId));
+    const currentUserId = (req as any).userId;
+    const targetUserId = Number(req.params.id);
 
-    res.status(StatusCodes.OK).json({ message: "Delete user successfully" });
+    if (currentUserId === targetUserId) {
+      res
+        .status(StatusCodes.FORBIDDEN)
+        .json({ message: 'You cannot delete yourself' });
+    }
+
+    await userServices.deleteUserById(Number(targetUserId));
+    res.status(StatusCodes.OK).json({ message: 'Delete user successfully' });
   } catch (err) {
     next(err);
   }
@@ -59,7 +66,7 @@ export const editUser = async (
     newUserData = { ...newUserData, userId };
     await userServices.editUser(newUserData);
 
-    res.status(StatusCodes.OK).json({ message: "Update user successfully" });
+    res.status(StatusCodes.OK).json({ message: 'Update user successfully' });
   } catch (err) {
     next(err);
   }

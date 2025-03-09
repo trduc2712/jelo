@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 interface ErrorProps {
   statusCode: number;
@@ -24,9 +24,8 @@ const Error: React.FC<ErrorProps> = ({ statusCode, message }) => {
         <Button
           color="primary"
           variant="outlined"
-          onClick={() => navigate("/")}
-          icon={<ArrowLeftOutlined />}
-        >
+          onClick={() => navigate('/')}
+          icon={<ArrowLeftOutlined />}>
           Return to home page
         </Button>
       )}

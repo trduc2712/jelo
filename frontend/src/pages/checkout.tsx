@@ -1,28 +1,26 @@
-import React, { useEffect } from "react";
-import { Form, Input, Button, Select } from "antd";
-import type { FormProps } from "antd";
-import { formatCurrency } from "../utils/formatters";
+import React, { useEffect } from 'react';
+import { Form, Input, Button, Select } from 'antd';
+import type { FormProps } from 'antd';
+import { formatCurrency } from '../utils/formatters';
 
 type FieldType = {
   name: string;
   address: string;
   phone: string;
-  paymentMethod: "cod" | "bank_transfer";
+  paymentMethod: 'cod' | 'bank_transfer';
 };
 
 const Checkout: React.FC = () => {
   useEffect(() => {
-    document.title = "Checkout | Jelo";
+    document.title = 'Checkout | Jelo';
   }, []);
 
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
+  const onFinish: FormProps<FieldType>['onFinish'] = values => {
+    console.log('Success:', values);
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Failed:", errorInfo);
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = errorInfo => {
+    console.log('Failed:', errorInfo);
   };
 
   const handleChange = (value: string) => {
@@ -35,19 +33,17 @@ const Checkout: React.FC = () => {
       <div className="!mt-4 gap-4">
         <Form
           name="basic"
-          initialValues={{ paymentMethod: "cod" }}
+          initialValues={{ paymentMethod: 'cod' }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          layout="vertical"
-        >
+          layout="vertical">
           <div className="flex justify-between gap-6">
             <Form.Item<FieldType>
               label="Name"
               name="name"
               className="flex-1"
-              rules={[{ required: true, message: "Please input your name!" }]}
-            >
+              rules={[{ required: true, message: 'Please input your name!' }]}>
               <Input />
             </Form.Item>
 
@@ -55,8 +51,7 @@ const Checkout: React.FC = () => {
               label="Phone"
               name="phone"
               className="flex-1"
-              rules={[{ required: true, message: "Please input your phone!" }]}
-            >
+              rules={[{ required: true, message: 'Please input your phone!' }]}>
               <Input />
             </Form.Item>
           </div>
@@ -64,8 +59,7 @@ const Checkout: React.FC = () => {
           <Form.Item<FieldType>
             label="Address"
             name="address"
-            rules={[{ required: true, message: "Please input your address!" }]}
-          >
+            rules={[{ required: true, message: 'Please input your address!' }]}>
             <Input />
           </Form.Item>
 
@@ -75,15 +69,14 @@ const Checkout: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: "Please choose your payment method!",
+                message: 'Please choose your payment method!',
               },
-            ]}
-          >
+            ]}>
             <Select
               onChange={handleChange}
               options={[
-                { value: "cod", label: "COD" },
-                { value: "bank_transfer", label: "Bank transfer" },
+                { value: 'cod', label: 'COD' },
+                { value: 'bank_transfer', label: 'Bank transfer' },
               ]}
             />
           </Form.Item>

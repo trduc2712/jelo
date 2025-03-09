@@ -1,6 +1,6 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { formatCurrency } from "../utils/formatters";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { formatCurrency } from '../utils/formatters';
 
 type ProductCardProps = {
   slug: string;

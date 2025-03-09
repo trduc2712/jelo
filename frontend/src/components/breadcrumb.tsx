@@ -1,5 +1,5 @@
-import React from "react";
-import { Breadcrumb as AntBreadcrumb } from "antd";
+import React from 'react';
+import { Breadcrumb as AntBreadcrumb } from 'antd';
 
 type BreadcrumbProps = {
   className?: string;
@@ -8,10 +8,10 @@ type BreadcrumbProps = {
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ className }) => {
   const breadcrumbItems = [
     {
-      title: "Admin Panel",
+      title: 'Admin Panel',
     },
     {
-      title: "User List",
+      title: 'User List',
     },
   ];
   return (

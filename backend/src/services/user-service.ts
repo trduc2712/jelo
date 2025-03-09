@@ -1,14 +1,14 @@
-import { StatusCodes } from "http-status-codes";
-import { prisma } from "../config/prisma.js";
-import ApiError from "../utils/ApiError.js";
-import bcrypt from "bcryptjs";
-import { Role, UserStatus } from "@prisma/client";
+import { StatusCodes } from 'http-status-codes';
+import { prisma } from '../config/prisma.js';
+import ApiError from '../utils/ApiError.js';
+import bcrypt from 'bcryptjs';
+import { Role, UserStatus } from '@prisma/client';
 
 const getUserByEmail = async (email: string) => {
   const foundUser = await prisma.user.findFirst({ where: { email } });
 
   if (!foundUser) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
   return foundUser;
@@ -32,7 +32,7 @@ const getUserById = async (userId: number, fullInfo?: false) => {
   });
 
   if (!foundUser) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
   return foundUser;
@@ -55,7 +55,7 @@ const getAllUsers = async (fullInfo?: false) => {
   });
 
   if (users.length === 0) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "No users found");
+    throw new ApiError(StatusCodes.NOT_FOUND, 'No users found');
   }
 
   return users;
@@ -78,17 +78,15 @@ const createUser = async ({
   avatarUrl: string;
   address: string;
 }) => {
-  const encryptedPassword = await bcrypt.hash(password, 12);
-
   const existingUser = await prisma.user.findFirst({ where: { email } });
-
   if (existingUser) {
     throw new ApiError(
       StatusCodes.CONFLICT,
-      "Email has already been registered"
+      'Email has already been registered'
     );
   }
 
+  const encryptedPassword = await bcrypt.hash(password, 12);
   const newUser = await prisma.user.create({
     data: {
       email,
@@ -109,7 +107,7 @@ const deleteUserById = async (userId: number) => {
   const existingUser = await prisma.user.findFirst({ where: { id: userId } });
 
   if (!existingUser) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
   await prisma.user.delete({ where: { id: userId } });
@@ -147,7 +145,7 @@ const editUser = async ({
   };
 
   if (!existingUser) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
   const updatedUser = await prisma.user.update({
@@ -158,6 +156,11 @@ const editUser = async ({
   return updatedUser;
 };
 
+const checkRole = async (userId: number) => {
+  const user = await prisma.user.findFirst({ where: { id: userId } });
+  return user?.role;
+};
+
 export const userServices = {
   getUserByEmail,
   getUserById,
@@ -165,4 +168,5 @@ export const userServices = {
   createUser,
   deleteUserById,
   editUser,
+  checkRole,
 };

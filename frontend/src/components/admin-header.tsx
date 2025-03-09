@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Layout, Button, Tooltip, Drawer } from "antd";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Layout, Button, Tooltip, Drawer } from 'antd';
 import {
   MenuOutlined,
   UserOutlined,
   ArrowLeftOutlined,
-} from "@ant-design/icons";
-import { Breadcrumb, ProfileForm, AdminNavMenu } from "./";
+} from '@ant-design/icons';
+import { Breadcrumb, ProfileForm, AdminNavMenu } from './';
 
 const { Header: AntHeader } = Layout;
 
@@ -35,11 +35,11 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -71,10 +71,10 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
     <>
       <AntHeader className="sticky top-0 z-50 !p-4 w-full !bg-white flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Tooltip title="Toggle Sidebar">
+          <Tooltip title="Toggle sidebar">
             <Button icon={<MenuOutlined />} onClick={handleClickMenuButton} />
           </Tooltip>
-          <Tooltip title="Go to Previous Page">
+          <Tooltip title="Go to previous page">
             <Button icon={<ArrowLeftOutlined />} onClick={handleGoBack} />
           </Tooltip>
           <Breadcrumb />
@@ -86,8 +86,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
       <Drawer
         title="Profile"
         onClose={handleCloseProfileDrawer}
-        open={isProfileDrawerOpen}
-      >
+        open={isProfileDrawerOpen}>
         <ProfileForm />
       </Drawer>
       <Drawer
@@ -95,12 +94,11 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
         open={isNavDrawerOpen}
         placement="left"
         styles={{
-          header: { display: "none" },
-          body: { padding: 0, overflow: "hidden" },
+          header: { display: 'none' },
+          body: { padding: 0, overflow: 'hidden' },
         }}
         width={200}
-        getContainer={false}
-      >
+        getContainer={false}>
         <AdminNavMenu />
       </Drawer>
     </>

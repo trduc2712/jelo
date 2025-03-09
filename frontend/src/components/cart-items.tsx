@@ -1,18 +1,18 @@
-import React from "react";
-import { Button, InputNumber } from "antd";
-import type { InputNumberProps } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
-import { formatCurrency } from "../utils/formatters";
-import { products } from "../utils/mock-data";
+import React from 'react';
+import { Button, InputNumber } from 'antd';
+import type { InputNumberProps } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import { formatCurrency } from '../utils/formatters';
+import { products } from '../utils/mock-data';
 
 const CartItems: React.FC = () => {
-  const onChange: InputNumberProps["onChange"] = (value) => {
-    console.log("changed", value);
+  const onChange: InputNumberProps['onChange'] = value => {
+    console.log('changed', value);
   };
 
   return (
     <div className="flex flex-col gap-4">
-      {products.map((product) => (
+      {products.map(product => (
         <div key={product.id}>
           <img src={product.imageUrl} alt="Product's image" />
           <p>{product.name}</p>

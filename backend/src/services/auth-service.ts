@@ -1,16 +1,16 @@
-import { prisma } from "../config/prisma.js";
-import bcrypt from "bcryptjs";
-import { Role, UserStatus } from "@prisma/client";
-import { StatusCodes } from "http-status-codes";
-import ApiError from "../utils/ApiError.js";
+import { prisma } from '../config/prisma.js';
+import bcrypt from 'bcryptjs';
+import { Role, UserStatus } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
+import ApiError from '../utils/ApiError.js';
 
 const register = async ({
   name,
   email,
-  phone = "",
+  phone = '',
   password,
-  avatarUrl = "",
-  address = "",
+  avatarUrl = '',
+  address = '',
 }: {
   name: string;
   email: string;
@@ -26,7 +26,7 @@ const register = async ({
   if (existingUser) {
     throw new ApiError(
       StatusCodes.CONFLICT,
-      "Email has already been registered"
+      'Email has already been registered'
     );
   }
 

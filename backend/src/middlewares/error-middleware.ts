@@ -1,7 +1,7 @@
-import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import env from "../config/environment.js";
-import { Request, Response, NextFunction } from "express";
-import ApiError from "../utils/ApiError.js";
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import env from '../config/environment.js';
+import { Request, Response, NextFunction } from 'express';
+import ApiError from '../utils/ApiError.js';
 
 const errorHandler = (
   err: Error,
@@ -19,7 +19,7 @@ const errorHandler = (
     message: err.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
   };
 
-  if (env.NODE_ENV === "development") {
+  if (env.NODE_ENV === 'development') {
     responseError.stack = err.stack;
   }
 

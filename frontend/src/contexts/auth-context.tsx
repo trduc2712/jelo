@@ -4,9 +4,9 @@ import {
   useEffect,
   Dispatch,
   SetStateAction,
-} from "react";
-import { getCurrentUser } from "../api/auth-api";
-import { User } from "../interfaces/user";
+} from 'react';
+import { getCurrentUser } from '../api/auth-api';
+import { User } from '../interfaces/user';
 interface AuthContextType {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
@@ -19,11 +19,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem("accessToken")
+    localStorage.getItem('accessToken')
   );
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem('accessToken');
 
     const fetchUserData = async () => {
       try {
@@ -41,13 +41,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const handleStorageChange = () => {
-      setAccessToken(localStorage.getItem("accessToken"));
+      setAccessToken(localStorage.getItem('accessToken'));
     };
 
-    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener('storage', handleStorageChange);
 
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 

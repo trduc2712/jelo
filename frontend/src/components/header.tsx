@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Layout, Tooltip, Drawer, Button } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Layout, Tooltip, Drawer, Button } from 'antd';
 import {
   SearchOutlined,
   ShoppingOutlined,
   UserOutlined,
   MenuOutlined,
-} from "@ant-design/icons";
-import CartItems from "./cart-items";
-import { ProfileForm } from "./";
-import { useAuth } from "../hooks";
+} from '@ant-design/icons';
+import CartItems from './cart-items';
+import { ProfileForm } from './';
+import { useAuth } from '../hooks';
 
 const { Header: AntHeader } = Layout;
 
@@ -30,11 +30,11 @@ const Header: React.FC = () => {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
   };
 
   const openProfileDrawer = () => {
-    if (!user) navigate("/auth/login");
+    if (!user) navigate('/auth/login');
     setIsProfileDrawerOpen(true);
   };
 
@@ -65,34 +65,34 @@ const Header: React.FC = () => {
 
   const navbarItems = [
     {
-      key: "tops",
-      label: "Tops",
-      path: "/categories/tops",
+      key: 'tops',
+      label: 'Tops',
+      path: '/categories/tops',
     },
     {
-      key: "bottoms",
-      label: "Bottoms",
-      path: "/categories/bottoms",
+      key: 'bottoms',
+      label: 'Bottoms',
+      path: '/categories/bottoms',
     },
     {
-      key: "sweaters",
-      label: "Sweaters",
-      path: "/categories/sweaters",
+      key: 'sweaters',
+      label: 'Sweaters',
+      path: '/categories/sweaters',
     },
     {
-      key: "hoodies",
-      label: "Hoodies",
-      path: "/categories/hoodies",
+      key: 'hoodies',
+      label: 'Hoodies',
+      path: '/categories/hoodies',
     },
     {
-      key: "outerwear",
-      label: "Outerwear",
-      path: "/categories/outerwear",
+      key: 'outerwear',
+      label: 'Outerwear',
+      path: '/categories/outerwear',
     },
     {
-      key: "accessories",
-      label: "Accessories",
-      path: "/categories/accessories",
+      key: 'accessories',
+      label: 'Accessories',
+      path: '/categories/accessories',
     },
   ];
 
@@ -108,12 +108,11 @@ const Header: React.FC = () => {
                 </h1>
               </Link>
               <div className="flex">
-                {navbarItems.map((item) => (
+                {navbarItems.map(item => (
                   <div
                     key={item.key}
                     className="!px-4 uppercase cursor-pointer hover:text-[#bb4d00]"
-                    onClick={() => navigate(item.path)}
-                  >
+                    onClick={() => navigate(item.path)}>
                     {item.label}
                   </div>
                 ))}
@@ -145,15 +144,13 @@ const Header: React.FC = () => {
         open={isCategoryDrawerOpen}
         placement="left"
         width={200}
-        styles={{ header: { display: "none" } }}
-      >
+        styles={{ header: { display: 'none' } }}>
         <div className="flex flex-col">
-          {navbarItems.map((item) => (
+          {navbarItems.map(item => (
             <div
               key={item.key}
               className="!px-4 uppercase cursor-pointer hover:text-[#bb4d00] !mb-4 !pl-0"
-              onClick={() => navigate(item.path)}
-            >
+              onClick={() => navigate(item.path)}>
               {item.label}
             </div>
           ))}
@@ -162,8 +159,7 @@ const Header: React.FC = () => {
       <Drawer
         title="Profile"
         onClose={closeProfileDrawer}
-        open={isProfileDrawerOpen}
-      >
+        open={isProfileDrawerOpen}>
         <ProfileForm />
       </Drawer>
       <Drawer title="Cart" onClose={closeCartDrawer} open={isCartDrawerOpen}>

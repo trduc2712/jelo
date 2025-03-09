@@ -1,70 +1,70 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import type { MenuProps } from "antd";
-import { Menu } from "antd";
-import "../sass/admin-nav-menu.scss";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+import '../sass/admin-nav-menu.scss';
 
 const AdminNavMenu: React.FC = () => {
   const [selectedKey, setSelectedKey] = useState<string[]>([]);
   const location = useLocation();
 
-  const sidebarItems: MenuProps["items"] = [
+  const sidebarItems: MenuProps['items'] = [
     {
-      key: "dashboard",
+      key: 'dashboard',
       label: <Link to="/admin">Dashboard</Link>,
     },
     {
-      key: "users",
-      label: "Users",
+      key: 'users',
+      label: 'Users',
       children: [
         {
-          key: "user-list",
+          key: 'user-list',
           label: <Link to="/admin/users">User List</Link>,
         },
         {
-          key: "create-user",
+          key: 'create-user',
           label: <Link to="/admin/users/new">Create User</Link>,
         },
       ],
     },
     {
-      key: "orders",
-      label: "Orders",
+      key: 'orders',
+      label: 'Orders',
       children: [
         {
-          key: "order-list",
+          key: 'order-list',
           label: <Link to="/admin">Order List</Link>,
         },
         {
-          key: "create-order",
+          key: 'create-order',
           label: <Link to="/admin">Create Order</Link>,
         },
       ],
     },
     {
-      key: "products",
-      label: "Products",
+      key: 'products',
+      label: 'Products',
       children: [
         {
-          key: "product-list",
+          key: 'product-list',
           label: <Link to="/admin/products">Product List</Link>,
         },
         {
-          key: "create-product",
+          key: 'create-product',
           label: <Link to="/admin/products/new">Create Product</Link>,
         },
       ],
     },
     {
-      key: "categories",
-      label: "Categories",
+      key: 'categories',
+      label: 'Categories',
       children: [
         {
-          key: "category-list",
+          key: 'category-list',
           label: <Link to="/admin/categories">Category List</Link>,
         },
         {
-          key: "create-category",
+          key: 'create-category',
           label: <Link to="/admin/categories/new">Create Category</Link>,
         },
       ],
@@ -75,26 +75,26 @@ const AdminNavMenu: React.FC = () => {
     const path = location.pathname;
 
     switch (path) {
-      case "/admin":
-        setSelectedKey(["dashboard"]);
+      case '/admin':
+        setSelectedKey(['dashboard']);
         break;
-      case "/admin/":
-        setSelectedKey(["dashboard"]);
+      case '/admin/':
+        setSelectedKey(['dashboard']);
         break;
-      case "/admin/users/new":
-        setSelectedKey(["create-user"]);
+      case '/admin/users/new':
+        setSelectedKey(['create-user']);
         break;
-      case "/admin/users":
-        setSelectedKey(["user-list"]);
+      case '/admin/users':
+        setSelectedKey(['user-list']);
         break;
-      case "/admin/products":
-        setSelectedKey(["product-list"]);
+      case '/admin/products':
+        setSelectedKey(['product-list']);
         break;
-      case "/admin/product/new":
-        setSelectedKey(["create-product"]);
+      case '/admin/product/new':
+        setSelectedKey(['create-product']);
         break;
-      case "/admin/categories":
-        setSelectedKey(["categories"]);
+      case '/admin/categories':
+        setSelectedKey(['categories']);
         break;
     }
   }, [location.pathname]);

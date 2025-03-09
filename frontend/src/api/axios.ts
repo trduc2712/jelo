@@ -1,31 +1,31 @@
-import axios from "axios";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => {
+  config => {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
-      "accessToken"
+      'accessToken'
     )}`;
 
     return config;
   },
-  (err) => {
+  err => {
     return Promise.reject(err);
   }
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => {
+  response => {
     if (response) {
       return response;
     }
 
     return response;
   },
-  (err) => {
+  err => {
     if (err.response) {
       if (import.meta.env.DEV) {
         console.log(err.response);

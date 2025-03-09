@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const AuthLayout: React.FC = () => {
-  const [title, setTitle] = useState("Title");
+  const [title, setTitle] = useState('Title');
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === "/auth/login") {
-      setTitle("Login");
+    if (location.pathname === '/auth/login') {
+      setTitle('Login');
     } else {
-      setTitle("Register");
+      setTitle('Register');
     }
   }, [location.pathname]);
 

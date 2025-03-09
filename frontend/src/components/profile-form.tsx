@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Avatar, Modal } from "antd";
-import type { FormProps } from "antd";
-import { useAuth, useNotification } from "../hooks";
-import { logout } from "../api/auth-api";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Avatar, Modal } from 'antd';
+import type { FormProps } from 'antd';
+import { useAuth, useNotification } from '../hooks';
+import { logout } from '../api/auth-api';
 
 type FieldType = {
   avatarUrl: string;
@@ -21,14 +21,12 @@ const ProfileForm: React.FC = () => {
   const { user, setUser } = useAuth();
   const notificationApi = useNotification();
 
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
+  const onFinish: FormProps<FieldType>['onFinish'] = values => {
+    console.log('Success:', values);
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Failed:", errorInfo);
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = errorInfo => {
+    console.log('Failed:', errorInfo);
   };
 
   const handleOk = async () => {
@@ -37,15 +35,15 @@ const ProfileForm: React.FC = () => {
 
     if (data && !data.statusCode) {
       notificationApi.success({
-        message: "Success",
+        message: 'Success',
         description: data.message,
       });
 
       setUser(null);
-      navigate("/auth/login");
+      navigate('/auth/login');
     } else {
       notificationApi.error({
-        message: "Error",
+        message: 'Error',
         description: data.message,
       });
     }
@@ -71,8 +69,7 @@ const ProfileForm: React.FC = () => {
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          layout="vertical"
-        >
+          layout="vertical">
           <Form.Item<FieldType> label="Avatar" name="avatarUrl">
             <Avatar shape="square" size="large" icon={<UserOutlined />} />
           </Form.Item>
@@ -80,32 +77,28 @@ const ProfileForm: React.FC = () => {
           <Form.Item<FieldType>
             label="Email"
             name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
-          >
+            rules={[{ required: true, message: 'Please input your email!' }]}>
             <Input />
           </Form.Item>
 
           <Form.Item<FieldType>
             label="Name"
             name="name"
-            rules={[{ required: true, message: "Please input your name!" }]}
-          >
+            rules={[{ required: true, message: 'Please input your name!' }]}>
             <Input />
           </Form.Item>
 
           <Form.Item<FieldType>
             label="Phone"
             name="phone"
-            rules={[{ required: true, message: "Please input your phone!" }]}
-          >
+            rules={[{ required: true, message: 'Please input your phone!' }]}>
             <Input />
           </Form.Item>
 
           <Form.Item<FieldType>
             label="Address"
             name="address"
-            rules={[{ required: true, message: "Please input your address!" }]}
-          >
+            rules={[{ required: true, message: 'Please input your address!' }]}>
             <Input />
           </Form.Item>
 
@@ -126,8 +119,7 @@ const ProfileForm: React.FC = () => {
               type="primary"
               danger
               onClick={openConfirmLogoutModal}
-              className="w-full"
-            >
+              className="w-full">
               Log Out
             </Button>
           </Form.Item>
@@ -139,8 +131,7 @@ const ProfileForm: React.FC = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         okText="Log Out"
-        cancelText="No"
-      >
+        cancelText="No">
         Are you sure you want to log out?
       </Modal>
     </>

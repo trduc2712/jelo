@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const uploadImageToCloudinary = async (image: File) => {
   const formData = new FormData();
-  formData.append("file", image);
+  formData.append('file', image);
   formData.append(
-    "upload_preset",
+    'upload_preset',
     import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
   );
 
@@ -17,6 +17,6 @@ export const uploadImageToCloudinary = async (image: File) => {
     );
     return response.data.secure_url;
   } catch (error) {
-    console.log("Error uploading to Cloudinary:", error);
+    console.log('Error uploading to Cloudinary:', error);
   }
 };
