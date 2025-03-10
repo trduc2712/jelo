@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { prisma } from '../config/prisma.js';
-import ApiError from '../utils/ApiError.js';
+import { Category } from '@prisma/client';
+import { categoryServies } from '../services/category-service.js';
 
 export const getAllCategories = async (
   req: Request,
@@ -9,7 +9,7 @@ export const getAllCategories = async (
   next: NextFunction
 ) => {
   try {
-    const categories = await prisma.category.findMany();
+    const categories: Category[] = await categoryServies.getAllCategories();
 
     res
       .status(StatusCodes.OK)
@@ -25,15 +25,8 @@ export const createCategory = async (
   next: NextFunction
 ) => {
   try {
-    const { name } = req.body;
-
-    if (!name) {
-      throw new ApiError(StatusCodes.BAD_REQUEST, 'Name is required');
-    }
-
-    await prisma.category.create({
-      data: { name },
-    });
+    const categoryData: Category = req.body;
+    await categoryServies.createCategory(categoryData);
 
     res
       .status(StatusCodes.OK)

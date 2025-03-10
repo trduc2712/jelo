@@ -4,7 +4,8 @@ import ApiError from '../utils/ApiError.js';
 import { WHITELIST_ROUTES, ROLE_PERMISSIONS } from '../utils/constants.js';
 import { verifyToken } from '../utils/token-util.js';
 import { userServices } from '../services/user-service.js';
-import { Role } from '@prisma/client/wasm';
+import { Role } from '@prisma/client';
+import { JwtPayload } from 'jsonwebtoken';
 
 export const authenticateToken = async (
   req: Request,
@@ -16,11 +17,12 @@ export const authenticateToken = async (
   }
 
   if (req.headers && req.headers.authorization) {
-    const token = req.headers.authorization.split(' ')[1];
+    const token: string = req.headers.authorization.split(' ')[1];
 
     try {
-      const decodedToken = verifyToken(token);
-      const userId = Number(decodedToken.sub);
+      const decodedToken: JwtPayload | string = verifyToken(token);
+      console.log('decodedToken: ', decodedToken);
+      const userId: number = Number(decodedToken.sub);
       (req as any).userId = userId;
 
       next();
@@ -42,7 +44,6 @@ export const authorizeRole =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userRole: Role = await userServices.checkRole((req as any).userId);
-
       if (!ROLE_PERMISSIONS[userRole].includes(requiredPermisson)) {
         throw new ApiError(
           StatusCodes.FORBIDDEN,

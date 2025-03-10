@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import { Role, UserStatus } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '../utils/ApiError.js';
+import { userServices } from './user-service.js';
+import { generateAuthToken } from '../utils/token-util.js';
 
 const register = async ({
   name,
@@ -46,18 +48,33 @@ const register = async ({
   return newUser;
 };
 
+const login = async (email: string, password: string) => {
+  const user = await userServices.getUserByEmail(email);
+
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatch) {
+    throw new ApiError(StatusCodes.UNAUTHORIZED, 'Invalid credentials');
+  }
+
+  const { accessToken, refreshToken, refreshTokenExpiresAt } =
+    generateAuthToken(user.id);
+  await updateUserRefreshToken(user.id, refreshToken, refreshTokenExpiresAt);
+
+  return accessToken;
+};
+
 const updateUserRefreshToken = async (
   userId: number,
   refreshToken: string,
-  expiresAt: Date
+  refreshTokenExpiresAt: Date
 ) => {
   return prisma.user.update({
     where: { id: userId },
     data: {
       refreshToken,
-      refreshTokenExpiresAt: expiresAt,
+      refreshTokenExpiresAt: refreshTokenExpiresAt,
     },
   });
 };
 
-export const authServices = { register, updateUserRefreshToken };
+export const authServices = { register, login, updateUserRefreshToken };

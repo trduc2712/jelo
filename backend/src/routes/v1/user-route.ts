@@ -9,9 +9,9 @@ import { authorizeRole } from '../../middlewares/auth-middleware.js';
 
 const router = Router();
 
-router.get('/', authorizeRole('read-all-users'), getAllUsers);
 router.post('/', authorizeRole('create-user'), createUser);
-router.delete('/:id', authorizeRole('delete-user'), deleteUserById);
+router.get('/', authorizeRole('read-all-users'), getAllUsers);
 router.post('/:id', authorizeRole('update-user'), editUser);
+router.delete('/:id', authorizeRole('delete-user'), deleteUserById);
 
 export default router;

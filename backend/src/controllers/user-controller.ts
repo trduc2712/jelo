@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { userServices } from '../services/user-service.js';
+import { User } from '@prisma/client';
 
 export const getAllUsers = async (
   req: Request,
@@ -8,7 +9,7 @@ export const getAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await userServices.getAllUsers();
+    const users: User[] = await userServices.getAllUsers();
 
     res
       .status(StatusCodes.OK)
@@ -24,8 +25,8 @@ export const createUser = async (
   next: NextFunction
 ) => {
   try {
-    const user = req.body;
-    await userServices.createUser(user);
+    const userData: User = req.body;
+    await userServices.createUser(userData);
 
     res.status(StatusCodes.OK).json({ message: 'Create user successfully' });
   } catch (err) {
@@ -39,16 +40,10 @@ export const deleteUserById = async (
   next: NextFunction
 ) => {
   try {
-    const currentUserId = (req as any).userId;
-    const targetUserId = Number(req.params.id);
+    const currentUserId: number = (req as any).userId;
+    const targetUserId: number = Number(req.params.id);
 
-    if (currentUserId === targetUserId) {
-      res
-        .status(StatusCodes.FORBIDDEN)
-        .json({ message: 'You cannot delete yourself' });
-    }
-
-    await userServices.deleteUserById(Number(targetUserId));
+    await userServices.deleteUserById(currentUserId, targetUserId);
     res.status(StatusCodes.OK).json({ message: 'Delete user successfully' });
   } catch (err) {
     next(err);
@@ -61,10 +56,9 @@ export const editUser = async (
   next: NextFunction
 ) => {
   try {
-    const userId = Number(req.params.id);
-    let newUserData = req.body;
-    newUserData = { ...newUserData, userId };
-    await userServices.editUser(newUserData);
+    const userId: number = Number(req.params.id);
+    const newUserData: User = req.body;
+    await userServices.editUser(userId, newUserData);
 
     res.status(StatusCodes.OK).json({ message: 'Update user successfully' });
   } catch (err) {

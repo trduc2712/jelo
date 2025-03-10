@@ -2,10 +2,12 @@ import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../config/prisma.js';
 import ApiError from '../utils/ApiError.js';
 import bcrypt from 'bcryptjs';
-import { Role, UserStatus } from '@prisma/client';
+import { Role, UserStatus, User } from '@prisma/client';
 
-const getUserByEmail = async (email: string) => {
-  const foundUser = await prisma.user.findFirst({ where: { email } });
+const getUserByEmail = async (email: string): Promise<User> => {
+  const foundUser: User | null = await prisma.user.findFirst({
+    where: { email },
+  });
 
   if (!foundUser) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
@@ -14,10 +16,13 @@ const getUserByEmail = async (email: string) => {
   return foundUser;
 };
 
-const getUserById = async (userId: number, fullInfo?: false) => {
-  const foundUser = await prisma.user.findFirst({
+const getUserById = async (
+  userId: number,
+  isFullInfo: boolean = false
+): Promise<User> => {
+  const foundUser: User | null = await prisma.user.findFirst({
     where: { id: userId },
-    select: fullInfo
+    select: isFullInfo
       ? undefined
       : {
           id: true,
@@ -38,9 +43,9 @@ const getUserById = async (userId: number, fullInfo?: false) => {
   return foundUser;
 };
 
-const getAllUsers = async (fullInfo?: false) => {
-  const users = await prisma.user.findMany({
-    select: fullInfo
+const getAllUsers = async (isFullInfo: boolean = false): Promise<User[]> => {
+  const users: User[] = await prisma.user.findMany({
+    select: isFullInfo
       ? undefined
       : {
           id: true,
@@ -77,8 +82,10 @@ const createUser = async ({
   role: Role;
   avatarUrl: string;
   address: string;
-}) => {
-  const existingUser = await prisma.user.findFirst({ where: { email } });
+}): Promise<User> => {
+  const existingUser: User | null = await prisma.user.findFirst({
+    where: { email },
+  });
   if (existingUser) {
     throw new ApiError(
       StatusCodes.CONFLICT,
@@ -86,8 +93,8 @@ const createUser = async ({
     );
   }
 
-  const encryptedPassword = await bcrypt.hash(password, 12);
-  const newUser = await prisma.user.create({
+  const encryptedPassword: string = await bcrypt.hash(password, 12);
+  const newUser: User = await prisma.user.create({
     data: {
       email,
       name,
@@ -103,62 +110,70 @@ const createUser = async ({
   return newUser;
 };
 
-const deleteUserById = async (userId: number) => {
-  const existingUser = await prisma.user.findFirst({ where: { id: userId } });
+const deleteUserById = async (
+  currentUserId: number,
+  targetUserId: number
+): Promise<User> => {
+  const existingUser: User | null = await prisma.user.findFirst({
+    where: { id: targetUserId },
+  });
 
   if (!existingUser) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
-  await prisma.user.delete({ where: { id: userId } });
+  await checkDeletingSelf(currentUserId, targetUserId);
+
+  return prisma.user.delete({ where: { id: targetUserId } });
 };
 
-const editUser = async ({
-  userId,
-  name,
-  password,
-  role,
-  avatarUrl,
-  address,
-  phone,
-  status,
-}: {
-  userId: number;
-  name: string;
-  phone: string;
-  password: string;
-  role: Role;
-  avatarUrl: string;
-  address: string;
-  status: UserStatus;
-}) => {
-  const existingUser = await prisma.user.findFirst({ where: { id: userId } });
-  const encryptedPassword = await bcrypt.hash(password, 12);
-  const newUserData = {
-    name,
-    phone,
-    password: encryptedPassword,
-    role,
-    avatarUrl,
-    address,
-    status,
-  };
+const editUser = async (userId: number, newUserData: User): Promise<User> => {
+  if (newUserData.email) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'Email change is not allowed');
+  }
 
+  const existingUser: User | null = await prisma.user.findFirst({
+    where: { id: userId },
+  });
   if (!existingUser) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
-  const updatedUser = await prisma.user.update({
+  const updateData: Partial<User> = { ...newUserData };
+
+  if (newUserData.password && newUserData.password.trim() !== '') {
+    updateData.password = await bcrypt.hash(newUserData.password, 12);
+  } else {
+    delete updateData.password;
+  }
+
+  const updatedUser: User = await prisma.user.update({
     where: { id: userId },
-    data: newUserData,
+    data: updateData,
   });
 
   return updatedUser;
 };
 
-const checkRole = async (userId: number) => {
-  const user = await prisma.user.findFirst({ where: { id: userId } });
-  return user?.role;
+const checkRole = async (userId: number): Promise<Role> => {
+  const user: User | null = await prisma.user.findFirst({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
+  return user.role;
+};
+
+const checkDeletingSelf = async (
+  currentUserId: number,
+  targetUserId: number
+): Promise<void> => {
+  if (currentUserId === targetUserId) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'You cannot delete yourself');
+  }
 };
 
 export const userServices = {
@@ -169,4 +184,5 @@ export const userServices = {
   deleteUserById,
   editUser,
   checkRole,
+  checkDeletingSelf,
 };
