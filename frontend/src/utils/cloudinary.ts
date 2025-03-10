@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const uploadImageToCloudinary = async (image: File) => {
+export const uploadImage = async (image: File) => {
   const formData = new FormData();
   formData.append('file', image);
   formData.append(

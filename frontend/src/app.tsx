@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AdminLayout, AuthLayout, MainLayout } from './layouts';
 import {
-  CreateUser,
-  UserList,
+  Users,
   Dashboard,
   Login,
   Register,
@@ -44,8 +43,7 @@ const App: React.FC = () => {
               </RoleBasedRoute>
             }>
             <Route index element={<Dashboard />} />
-            <Route path="users" element={<UserList />} />
-            <Route path="users/new" element={<CreateUser />} />
+            <Route path="users" element={<Users />} />
           </Route>
 
           <Route

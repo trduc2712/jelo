@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { UserForm } from '../../../components';
 import { createUser } from '../../../api/user-api';
-import { uploadImageToCloudinary } from '../../../utils/upload';
 import { useNotification } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { UserForm as IUserForm, User } from '../../../interfaces/user';

@@ -15,59 +15,19 @@ const AdminNavMenu: React.FC = () => {
     },
     {
       key: 'users',
-      label: 'Users',
-      children: [
-        {
-          key: 'user-list',
-          label: <Link to="/admin/users">User List</Link>,
-        },
-        {
-          key: 'create-user',
-          label: <Link to="/admin/users/new">Create User</Link>,
-        },
-      ],
+      label: <Link to="/admin/users">Users</Link>,
     },
     {
       key: 'orders',
       label: 'Orders',
-      children: [
-        {
-          key: 'order-list',
-          label: <Link to="/admin">Order List</Link>,
-        },
-        {
-          key: 'create-order',
-          label: <Link to="/admin">Create Order</Link>,
-        },
-      ],
     },
     {
       key: 'products',
       label: 'Products',
-      children: [
-        {
-          key: 'product-list',
-          label: <Link to="/admin/products">Product List</Link>,
-        },
-        {
-          key: 'create-product',
-          label: <Link to="/admin/products/new">Create Product</Link>,
-        },
-      ],
     },
     {
       key: 'categories',
       label: 'Categories',
-      children: [
-        {
-          key: 'category-list',
-          label: <Link to="/admin/categories">Category List</Link>,
-        },
-        {
-          key: 'create-category',
-          label: <Link to="/admin/categories/new">Create Category</Link>,
-        },
-      ],
     },
   ];
 
@@ -81,17 +41,11 @@ const AdminNavMenu: React.FC = () => {
       case '/admin/':
         setSelectedKey(['dashboard']);
         break;
-      case '/admin/users/new':
-        setSelectedKey(['create-user']);
-        break;
       case '/admin/users':
-        setSelectedKey(['user-list']);
+        setSelectedKey(['users']);
         break;
       case '/admin/products':
-        setSelectedKey(['product-list']);
-        break;
-      case '/admin/product/new':
-        setSelectedKey(['create-product']);
+        setSelectedKey(['products']);
         break;
       case '/admin/categories':
         setSelectedKey(['categories']);

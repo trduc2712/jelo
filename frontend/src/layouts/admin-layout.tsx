@@ -13,8 +13,7 @@ const AdminLayout: React.FC = () => {
 
   const pathToTitle: Record<string, string> = {
     '/admin': 'Dashboard',
-    '/admin/users': 'User List',
-    '/admin/users/new': 'Create User',
+    '/admin/users': 'User Management',
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { UserForm } from '../../../components';
 import { createUser } from '../../../api/user-api';
-import { uploadImageToCloudinary } from '../../../utils/upload';
+import { uploadImage } from '../../../utils/cloudinary';
 import { useNotification } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { UserForm as IUserForm } from '../../../interfaces/user';
@@ -15,9 +15,7 @@ const CreateUser: React.FC = () => {
   }, []);
 
   const handleCreateUser = async (userInfo: IUserForm) => {
-    const avatarUrl = userInfo.avatar
-      ? await uploadImageToCloudinary(userInfo.avatar)
-      : '';
+    const avatarUrl = userInfo.avatar ? await uploadImage(userInfo.avatar) : '';
     const { avatar, ...restUserInfo } = userInfo;
     const newUserInfo = { ...restUserInfo, avatarUrl };
 

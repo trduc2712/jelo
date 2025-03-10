@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Pagination, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
-import { FilterOutlined } from '@ant-design/icons';
 import { ProductList } from '../components';
 
 const filterItems: MenuProps['items'] = [
@@ -56,9 +55,7 @@ const Category: React.FC = () => {
       <div className="flex justify-between">
         <h2 className="font-bold text-2xl !mb-4 uppercase">{title}</h2>
         <Dropdown menu={{ items: filterItems }}>
-          <Button icon={<FilterOutlined />} type="primary">
-            Filter
-          </Button>
+          <Button>Filter</Button>
         </Dropdown>
       </div>
       <ProductList />
