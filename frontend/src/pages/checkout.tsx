@@ -32,6 +32,7 @@ const Checkout: React.FC = () => {
       <h2 className="font-bold text-2xl">CHECKOUT</h2>
       <div className="!mt-4 gap-4">
         <Form
+          requiredMark={false}
           name="basic"
           initialValues={{ paymentMethod: 'cod' }}
           onFinish={onFinish}

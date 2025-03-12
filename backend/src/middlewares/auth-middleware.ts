@@ -21,7 +21,6 @@ export const authenticateToken = async (
 
     try {
       const decodedToken: JwtPayload | string = verifyToken(token);
-      console.log('decodedToken: ', decodedToken);
       const userId: number = Number(decodedToken.sub);
       (req as any).userId = userId;
 
@@ -43,7 +42,8 @@ export const authorizeRole =
   (requiredPermisson: string) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userRole: Role = await userServices.checkRole((req as any).userId);
+      const user: User = await userServices.getUserById((req as any).userId);
+      const userRole: Role = user.role;
       if (!ROLE_PERMISSIONS[userRole].includes(requiredPermisson)) {
         throw new ApiError(
           StatusCodes.FORBIDDEN,

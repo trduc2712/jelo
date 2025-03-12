@@ -10,10 +10,28 @@ export const getAllUsers = async (
 ) => {
   try {
     const users: User[] = await userServices.getAllUsers();
+    const totalUsers: number = await userServices.countAllUsers();
 
-    res
-      .status(StatusCodes.OK)
-      .json({ message: 'Get all users successfully', users });
+    res.status(StatusCodes.OK).json({
+      message: 'Get all users successfully',
+      users,
+      meta: { total: totalUsers },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId: number = Number(req.params.id);
+    const user: User = await userServices.getUserById(userId);
+
+    res.status(StatusCodes.OK).json({ message: 'Get user successfully', user });
   } catch (err) {
     next(err);
   }

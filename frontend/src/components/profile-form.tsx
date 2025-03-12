@@ -61,6 +61,7 @@ const ProfileForm: React.FC = () => {
     <>
       {user && (
         <Form
+          requiredMark={false}
           initialValues={{
             email: user.email,
             name: user.name,
@@ -71,7 +72,7 @@ const ProfileForm: React.FC = () => {
           onFinishFailed={onFinishFailed}
           layout="vertical">
           <Form.Item<FieldType> label="Avatar" name="avatarUrl">
-            <Avatar shape="square" size="large" icon={<UserOutlined />} />
+            <Avatar size="large" icon={<UserOutlined />} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -104,13 +105,13 @@ const ProfileForm: React.FC = () => {
 
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit" className="w-full">
-              Save Changes
+              Save changes
             </Button>
           </Form.Item>
 
           <Form.Item label={null}>
             <Button color="primary" variant="outlined" className="w-full">
-              Change Password
+              Change password
             </Button>
           </Form.Item>
 
@@ -120,7 +121,7 @@ const ProfileForm: React.FC = () => {
               danger
               onClick={openConfirmLogoutModal}
               className="w-full">
-              Log Out
+              Log out
             </Button>
           </Form.Item>
         </Form>
@@ -130,7 +131,7 @@ const ProfileForm: React.FC = () => {
         open={isConfirmLogoutModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        okText="Log Out"
+        okText="Log out"
         cancelText="No">
         Are you sure you want to log out?
       </Modal>

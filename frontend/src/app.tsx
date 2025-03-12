@@ -2,8 +2,11 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AdminLayout, AuthLayout, MainLayout } from './layouts';
 import {
-  Users,
+  CategoryList,
   Dashboard,
+  OrderList,
+  ProductList,
+  UserList,
   Login,
   Register,
   Category,
@@ -12,6 +15,9 @@ import {
   Home,
   ProductDetail,
   Search,
+  CreateUser,
+  UserDetail,
+  EditUser,
 } from './pages';
 import { RoleBasedRoute, Provider } from './components';
 
@@ -37,13 +43,21 @@ const App: React.FC = () => {
             path="/admin"
             element={
               <RoleBasedRoute
-                allowedRoles={['ADMIN', 'MODERATOR']}
-                redirectPath="/unauthorized">
+                allowedRoles={['SUPER_ADMIN', 'ADMIN', 'MODERATOR']}
+                redirectPath="/unauthorized"
+              >
                 <AdminLayout />
               </RoleBasedRoute>
-            }>
+            }
+          >
             <Route index element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
+            <Route path="users" element={<UserList />} />
+            <Route path="users/:userId" element={<UserDetail />} />
+            <Route path="users/edit/:userId" element={<EditUser />} />
+            <Route path="users/new" element={<CreateUser />} />
+            <Route path="orders" element={<OrderList />} />
+            <Route path="products" element={<ProductList />} />
+            <Route path="categories" element={<CategoryList />} />
           </Route>
 
           <Route
@@ -55,12 +69,10 @@ const App: React.FC = () => {
               />
             }
           />
-
           <Route
             path="/banned"
             element={<Error statusCode={403} message="You have been banned." />}
           />
-
           <Route
             path="*"
             element={<Error statusCode={404} message="Page cannot be found." />}

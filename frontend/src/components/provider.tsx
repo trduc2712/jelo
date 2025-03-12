@@ -12,8 +12,13 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
       theme={{
         token: {
           colorPrimary: '#bb4d00',
-          borderRadius: 0,
+          borderRadius: 6,
           fontFamily: 'Arial',
+        },
+        components: {
+          Card: {
+            colorBorder: 'black',
+          },
         },
       }}>
       <AuthProvider>

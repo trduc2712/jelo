@@ -40,6 +40,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [accessToken]);
 
   useEffect(() => {
+    console.log('Thong tin user dang dang nhap: ', user);
+  }, [user]);
+
+  useEffect(() => {
     const handleStorageChange = () => {
       setAccessToken(localStorage.getItem('accessToken'));
     };

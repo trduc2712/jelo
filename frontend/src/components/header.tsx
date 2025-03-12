@@ -144,12 +144,16 @@ const Header: React.FC = () => {
         open={isCategoryDrawerOpen}
         placement="left"
         width={200}
-        styles={{ header: { display: 'none' } }}>
-        <div className="flex flex-col">
+        styles={{
+          header: { display: 'none' },
+          body: { padding: 0, overflow: 'hidden' },
+        }}
+        getContainer={false}>
+        <div className="flex flex-col !p-6">
           {navbarItems.map(item => (
             <div
               key={item.key}
-              className="!px-4 uppercase cursor-pointer hover:text-[#bb4d00] !mb-4 !pl-0"
+              className="uppercase cursor-pointer hover:text-[#bb4d00] !pb-4"
               onClick={() => navigate(item.path)}>
               {item.label}
             </div>

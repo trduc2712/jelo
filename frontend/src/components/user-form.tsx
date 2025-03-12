@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, Row, Col, Button, Upload } from 'antd';
+import {
+  Form,
+  Input,
+  Select,
+  Row,
+  Col,
+  Button,
+  Upload,
+  DatePicker,
+} from 'antd';
 import { User } from '../interfaces/user';
+import type { DatePickerProps } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { UserForm as IUserForm } from '../interfaces/user';
+import dayjs from 'dayjs';
+import { formatIso8601 } from '../utils/date';
+
+const { TextArea } = Input;
 
 interface UserFormProps {
-  onFinish: (values: User) => void;
+  onFinish?: (values: User) => void;
   initialValues?: User;
+  isEdit?: boolean;
+  isView?: boolean;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ onFinish, initialValues }) => {
+const UserForm: React.FC<UserFormProps> = ({
+  onFinish,
+  initialValues,
+  isEdit = false,
+  isView = false,
+}) => {
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
   const [avatar, setAvatar] = useState<File | null>(null);
   const [form] = Form.useForm();
@@ -20,11 +41,29 @@ const UserForm: React.FC<UserFormProps> = ({ onFinish, initialValues }) => {
     { value: 'CUSTOMER', label: 'Customer' },
   ];
 
+  const userStatuses = [
+    { value: 'ACTIVE', label: 'Active' },
+    { value: 'INACTIVE', label: 'Inactive' },
+    { value: 'BANNED', label: 'Banned' },
+  ];
+
+  const genders = [
+    { value: 'MALE', label: 'Male' },
+    { value: 'FEMALE', label: 'Female' },
+  ];
+
   useEffect(() => {
-    if (initialValues) {
-      setAvatarUrl(initialValues.avatarUrl);
-    }
-  }, [initialValues]);
+    if (!initialValues) return;
+
+    setAvatarUrl(initialValues.avatarUrl);
+    const formattedDate = initialValues.dateOfBirth
+      ? formatIso8601(initialValues.dateOfBirth)
+      : undefined;
+    form.setFieldsValue({
+      ...initialValues,
+      dateOfBirth: dayjs(formattedDate),
+    });
+  }, [initialValues, form]);
 
   useEffect(() => {
     const currentFormValues = form.getFieldsValue();
@@ -43,9 +82,9 @@ const UserForm: React.FC<UserFormProps> = ({ onFinish, initialValues }) => {
     <button
       style={{ border: 0, background: 'none' }}
       type="button"
-      className="cursor-pointer">
+      className="cursor-pointer"
+    >
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload avatar</div>
     </button>
   );
 
@@ -58,94 +97,122 @@ const UserForm: React.FC<UserFormProps> = ({ onFinish, initialValues }) => {
     setAvatarUrl(undefined);
   };
 
+  const handleDateOfBirthChange: DatePickerProps['onChange'] = (
+    date,
+    dateString
+  ) => {
+    console.log(date, dateString);
+  };
+
+  const disabledFutureDate = (current: dayjs.Dayjs) => {
+    return current && current > dayjs().endOf('day');
+  };
+
   return (
     <Form
-      initialValues={initialValues}
+      requiredMark={false}
       onFinish={onFinish}
       layout="vertical"
-      form={form}>
-      <Row gutter={16}>
-        <Col span={24}>
-          <Form.Item<IUserForm>
+      form={form}
+      disabled={isView}
+    >
+      <Form.Item<IUserForm>
+        name="avatar"
+        className="w-full h-full flex justify-center"
+      >
+        {!avatarUrl ? (
+          <Upload
             name="avatar"
-            className="w-full h-full flex justify-center">
-            {!avatarUrl ? (
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                customRequest={customRequest}>
-                {uploadButton}
-              </Upload>
-            ) : (
-              <div className="avatar-wrapper cursor-pointer text-white relative">
-                <img
-                  src={avatarUrl}
-                  alt="avatar"
-                  className="h-[102px] w-[102px] object-cover"
-                />
-                <div
-                  className="bg-gray-100 absolute top-0 left-0 w-[102px] h-[102px] flex justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-80 cursor-pointer"
-                  onClick={handleRemoveAvatar}>
-                  <DeleteOutlined className="text-[24px] !text-[#bb4d00]" />
-                </div>
-              </div>
-            )}
-          </Form.Item>
-        </Col>
-        <Col md={12} sm={24} xs={24}>
-          <Form.Item<IUserForm>
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: 'Please input email!' }]}>
-            <Input />
-          </Form.Item>
+            listType="picture-circle"
+            showUploadList={false}
+            customRequest={customRequest}
+            className="shadow-lg"
+          >
+            {uploadButton}
+          </Upload>
+        ) : (
+          <div
+            className={`avatar-wrapper cursor-pointer text-white relative ${isView ? 'pointer-events-none opacity-50' : ''}`}
+          >
+            <img
+              src={avatarUrl}
+              alt="avatar"
+              className="h-[100px] w-[100px] object-cover rounded-full"
+            />
+            <div
+              className="rounded-full absolute top-0 left-0 w-[100px] h-[100px] flex justify-center items-center opacity-0 transition-opacity duration-300 hover:opacity-80 cursor-pointer"
+              onClick={handleRemoveAvatar}
+            >
+              <DeleteOutlined className="text-[20px]" />
+            </div>
+          </div>
+        )}
+      </Form.Item>
 
-          <Form.Item<IUserForm>
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: 'Please input name!' }]}>
-            <Input />
-          </Form.Item>
+      <Form.Item<IUserForm>
+        label="Email"
+        name="email"
+        rules={[{ required: true, message: 'Please input email!' }]}
+      >
+        <Input disabled={isEdit || isView} />
+      </Form.Item>
 
-          <Form.Item<IUserForm>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input password!' }]}>
-            <Input.Password />
-          </Form.Item>
-        </Col>
-        <Col md={12} sm={24} xs={24}>
-          <Form.Item<IUserForm>
-            label="Role"
-            name="role"
-            rules={[{ required: true, message: 'Please input role!' }]}>
-            <Select options={roles} />
-          </Form.Item>
+      <Form.Item<IUserForm>
+        label="Name"
+        name="name"
+        rules={[{ required: true, message: 'Please input name!' }]}
+      >
+        <Input />
+      </Form.Item>
 
-          <Form.Item<IUserForm>
-            label="Address"
-            name="address"
-            rules={[{ required: true, message: 'Please input address!' }]}>
-            <Input />
-          </Form.Item>
+      <Form.Item<IUserForm> label="Password" name="password">
+        <Input.Password />
+      </Form.Item>
 
-          <Form.Item<IUserForm>
-            label="Phone"
-            name="phone"
-            rules={[{ required: true, message: 'Please input phone!' }]}>
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={24}>
-          <Form.Item label={null} className="!mb-0">
-            <Button type="primary" htmlType="submit" className="w-full">
-              Submit
-            </Button>
-          </Form.Item>
-        </Col>
-      </Row>
+      <Form.Item<IUserForm> label="Role" name="role">
+        <Select options={roles} />
+      </Form.Item>
+
+      <Form.Item<IUserForm>
+        label="Gender"
+        name="gender"
+        rules={[{ required: true, message: 'Please input gender!' }]}
+      >
+        <Select options={genders} />
+      </Form.Item>
+
+      <Form.Item<IUserForm> label="Address" name="address">
+        <TextArea />
+      </Form.Item>
+
+      <Form.Item<IUserForm> label="Date of Birth" name="dateOfBirth">
+        <DatePicker
+          onChange={handleDateOfBirthChange}
+          disabledDate={disabledFutureDate}
+        />
+      </Form.Item>
+
+      <Form.Item<IUserForm> label="Phone" name="phone">
+        <Input />
+      </Form.Item>
+
+      <Form.Item<IUserForm>
+        label="Status"
+        name="status"
+        className={`${isView ? '!mb-0' : ''}`}
+      >
+        <Select options={userStatuses} />
+      </Form.Item>
+
+      {isView ? (
+        ''
+      ) : (
+        <Form.Item label={null} className="!mb-0">
+          <Button type="primary" htmlType="submit" className="w-full">
+            {isEdit ? 'Save changes' : 'Create'}
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   );
 };

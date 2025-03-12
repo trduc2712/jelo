@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../config/prisma.js';
 import ApiError from '../utils/ApiError.js';
 import bcrypt from 'bcryptjs';
-import { Role, UserStatus, User } from '@prisma/client';
+import { Role, UserStatus, User, Gender } from '@prisma/client';
 
 const getUserByEmail = async (email: string): Promise<User> => {
   const foundUser: User | null = await prisma.user.findFirst({
@@ -33,6 +33,10 @@ const getUserById = async (
           address: true,
           phone: true,
           status: true,
+          createdAt: true,
+          dateOfBirth: true,
+          gender: true,
+          updatedAt: true,
         },
   });
 
@@ -41,6 +45,11 @@ const getUserById = async (
   }
 
   return foundUser;
+};
+
+const countAllUsers = async (): Promise<number> => {
+  const totalUsers = await prisma.user.count();
+  return totalUsers;
 };
 
 const getAllUsers = async (isFullInfo: boolean = false): Promise<User[]> => {
@@ -56,6 +65,10 @@ const getAllUsers = async (isFullInfo: boolean = false): Promise<User[]> => {
           address: true,
           phone: true,
           status: true,
+          createdAt: true,
+          dateOfBirth: true,
+          gender: true,
+          updatedAt: true,
         },
   });
 
@@ -69,11 +82,14 @@ const getAllUsers = async (isFullInfo: boolean = false): Promise<User[]> => {
 const createUser = async ({
   name,
   email,
-  phone,
   password,
   role,
   avatarUrl,
   address,
+  phone,
+  status,
+  dateOfBirth,
+  gender,
 }: {
   name: string;
   email: string;
@@ -82,6 +98,9 @@ const createUser = async ({
   role: Role;
   avatarUrl: string;
   address: string;
+  status: UserStatus;
+  dateOfBirth: Date;
+  gender: Gender;
 }): Promise<User> => {
   const existingUser: User | null = await prisma.user.findFirst({
     where: { email },
@@ -94,16 +113,19 @@ const createUser = async ({
   }
 
   const encryptedPassword: string = await bcrypt.hash(password, 12);
+  const isValidDate = (date: any) => date && !isNaN(Date.parse(date));
   const newUser: User = await prisma.user.create({
     data: {
       email,
       name,
-      password: encryptedPassword,
       role,
+      password: encryptedPassword,
       avatarUrl,
       address,
       phone,
-      status: UserStatus.ACTIVE,
+      status,
+      dateOfBirth: isValidDate(dateOfBirth) ? new Date(dateOfBirth) : null,
+      gender,
     },
   });
 
@@ -122,7 +144,7 @@ const deleteUserById = async (
     throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
   }
 
-  await checkDeletingSelf(currentUserId, targetUserId);
+  await checkDeletePermission(currentUserId, targetUserId);
 
   return prisma.user.delete({ where: { id: targetUserId } });
 };
@@ -155,24 +177,21 @@ const editUser = async (userId: number, newUserData: User): Promise<User> => {
   return updatedUser;
 };
 
-const checkRole = async (userId: number): Promise<Role> => {
-  const user: User | null = await prisma.user.findFirst({
-    where: { id: userId },
-  });
-
-  if (!user) {
-    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
-  }
-
-  return user.role;
-};
-
-const checkDeletingSelf = async (
+const checkDeletePermission = async (
   currentUserId: number,
   targetUserId: number
 ): Promise<void> => {
   if (currentUserId === targetUserId) {
     throw new ApiError(StatusCodes.FORBIDDEN, 'You cannot delete yourself');
+  }
+
+  const targetUser: User = await getUserById(targetUserId);
+  const currentUser: User = await getUserById(currentUserId);
+  if (targetUser.role === 'ADMIN' || currentUser.role !== 'SUPER_ADMIN') {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      'You cannot delete another administrator'
+    );
   }
 };
 
@@ -183,6 +202,6 @@ export const userServices = {
   createUser,
   deleteUserById,
   editUser,
-  checkRole,
-  checkDeletingSelf,
+  checkDeletePermission,
+  countAllUsers,
 };

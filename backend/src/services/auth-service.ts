@@ -9,17 +9,11 @@ import { generateAuthToken } from '../utils/token-util.js';
 const register = async ({
   name,
   email,
-  phone = '',
   password,
-  avatarUrl = '',
-  address = '',
 }: {
   name: string;
   email: string;
-  phone?: string;
   password: string;
-  avatarUrl?: string;
-  address?: string;
 }) => {
   const encryptedPassword = await bcrypt.hash(password, 12);
 
@@ -38,9 +32,6 @@ const register = async ({
       name,
       password: encryptedPassword,
       role: Role.CUSTOMER,
-      avatarUrl,
-      address,
-      phone,
       status: UserStatus.ACTIVE,
     },
   });

@@ -33,3 +33,19 @@
     }
   }
 }
+
+.ant-upload-wrapper {
+  border-radius: 100% !important;
+}
+
+.ant-upload {
+  height: 100px !important;
+  width: 100px !important;
+  border: none !important;
+  border-radius: 100% !important;
+  background-color: #fff !important;
+}
+
+.ant-upload-select {
+  border: none !important;
+}

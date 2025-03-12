@@ -8,6 +8,7 @@ datasource db {
 }
 
 enum Role {
+  SUPER_ADMIN
   ADMIN
   MODERATOR
   CUSTOMER
@@ -39,21 +40,32 @@ enum OrderStatus {
 
 enum UserStatus {
   ACTIVE
+  INACTIVE
   BANNED
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 model User {
-  id                    Int    @id @default(autoincrement())
-  email                 String @unique
+  id                    Int        @id @default(autoincrement())
+  email                 String     @unique
   name                  String
   password              String
-  role                  Role   @default(CUSTOMER)
-  avatarUrl             String
-  address               String
-  phone                 String
+  gender                Gender     @default(MALE)
+  role                  Role       @default(CUSTOMER)
+  avatarUrl             String?
+  address               String?
+  phone                 String?
+  dateOfBirth           DateTime?
   refreshToken          String?
   refreshTokenExpiresAt DateTime?
   status                UserStatus @default(ACTIVE)
+  lastLoginAt           DateTime?
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
 
   cartItems             CartItem[]
   orders                Order[]
@@ -79,7 +91,7 @@ model Product {
 }
 
 model ProductVariant {
-  id        Int   @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   productId Int
   name      String
   size      Size

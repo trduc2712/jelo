@@ -60,6 +60,7 @@ const Login: React.FC = () => {
   return (
     <div>
       <Form
+        requiredMark={false}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         layout="vertical">

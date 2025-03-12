@@ -1,44 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { UserForm } from '../../../components';
-import { createUser } from '../../../api/user-api';
-import { useNotification } from '../../../hooks';
-import { useNavigate } from 'react-router-dom';
-import { UserForm as IUserForm, User } from '../../../interfaces/user';
+import { User } from '../../../interfaces/user';
+import { useEntity } from '../../../hooks';
 
-const CreateUser: React.FC = () => {
-  const notificationApi = useNotification();
+const EditUser: React.FC = () => {
+  const { userId } = useParams();
+  const { getEntityById, editEntity } = useEntity('user');
+  const [user, setUser] = useState<User>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Edit User | Jelo';
+    const getUserById = async (userId: number) => {
+      const user: any = await getEntityById(userId);
+      setUser(user);
+    };
+
+    getUserById(Number(userId));
   }, []);
 
-  const handleCreateUser = async (userInfo: IUserForm) => {
-    const data = await createUser(userInfo);
-    if (data && !data.statusCode) {
-      notificationApi.success({
-        message: 'Success',
-        description: data.message,
-      });
-
-      navigate('/admin/users');
-    } else {
-      notificationApi.error({
-        message: 'Error',
-        description: data.message,
-      });
-    }
+  const handleEditUser = async (values: User) => {
+    await editEntity(Number(userId), values);
+    // navigate('/admin/users');
   };
 
-  const newUser: User = {
-    id: 1,
-    email: 'admin@example.com',
-    name: 'John Doe',
-    password: 'securepassword123',
-    role: 'ADMIN',
-  };
-
-  return <UserForm onFinish={handleCreateUser} initialValues={newUser} />;
+  return <UserForm isEdit initialValues={user} onFinish={handleEditUser} />;
 };
 
-export default CreateUser;
+export default EditUser;

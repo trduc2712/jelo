@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, Divider } from 'antd';
 import { AdminHeader, AdminSidebar } from '../components';
 
 const { Content } = Layout;
@@ -13,11 +13,31 @@ const AdminLayout: React.FC = () => {
 
   const pathToTitle: Record<string, string> = {
     '/admin': 'Dashboard',
-    '/admin/users': 'User Management',
+    '/admin/users': 'User List',
+    '/admin/categories': 'Category List',
+    '/admin/users/new': 'Create User',
+  };
+
+  const getTitle = (pathName: string) => {
+    if (
+      pathName.startsWith('/admin/users') &&
+      pathName !== '/admin/users/new' &&
+      pathName !== '/admin/users' &&
+      !pathName.startsWith('/admin/users/edit')
+    ) {
+      return 'User Detail';
+    }
+
+    if (pathName.startsWith('/admin/users/edit')) {
+      return 'Edit User';
+    }
+
+    return pathToTitle[pathName];
   };
 
   useEffect(() => {
-    setTitle(pathToTitle[location.pathname]);
+    document.title = `${getTitle(location.pathname)} | Jelo Admin`;
+    setTitle(getTitle(location.pathname));
   }, [location.pathname]);
 
   const handleToggleSidebar = () => {
@@ -29,9 +49,10 @@ const AdminLayout: React.FC = () => {
       <AdminSidebar isHidden={isSidebarHidden} />
       <Layout>
         <AdminHeader onToggleSidebar={handleToggleSidebar} />
-        <Content className="mt-[64px] !p-4 bg-gray-200">
-          <div className="!p-4 bg-white">
-            <h1 className="!mb-4 font-bold text-2xl">{title}</h1>
+        <Content className="mt-[64px] !p-4 bg-gray-100">
+          <div className="bg-white !p-4 shadow-lg rounded-lg">
+            <h1 className="font-bold text-2xl">{title}</h1>
+            <Divider />
             <Outlet />
           </div>
         </Content>

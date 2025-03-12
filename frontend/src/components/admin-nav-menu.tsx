@@ -15,7 +15,18 @@ const AdminNavMenu: React.FC = () => {
     },
     {
       key: 'users',
-      label: <Link to="/admin/users">Users</Link>,
+      label: 'Users',
+      children: [
+        {
+          key: 'user-list',
+          label: <Link to="/admin/users">User List</Link>,
+        },
+
+        {
+          key: 'create-user',
+          label: <Link to="/admin/users/new">Create User</Link>,
+        },
+      ],
     },
     {
       key: 'orders',
@@ -28,6 +39,17 @@ const AdminNavMenu: React.FC = () => {
     {
       key: 'categories',
       label: 'Categories',
+      children: [
+        {
+          key: 'category-list',
+          label: <Link to="/admin/categories">Category List</Link>,
+        },
+
+        {
+          key: 'create-category',
+          label: <Link to="/admin/categories/new">Create Category</Link>,
+        },
+      ],
     },
   ];
 
@@ -42,13 +64,15 @@ const AdminNavMenu: React.FC = () => {
         setSelectedKey(['dashboard']);
         break;
       case '/admin/users':
-        setSelectedKey(['users']);
+        setSelectedKey(['user-list']);
         break;
-      case '/admin/products':
-        setSelectedKey(['products']);
+      case '/admin/users/new':
+        setSelectedKey(['create-user']);
         break;
       case '/admin/categories':
-        setSelectedKey(['categories']);
+        setSelectedKey(['category-list']);
+        break;
+      default:
         break;
     }
   }, [location.pathname]);

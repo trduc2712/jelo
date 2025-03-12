@@ -49,6 +49,7 @@ const Register: React.FC = () => {
   return (
     <div>
       <Form
+        requiredMark={false}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         layout="vertical">

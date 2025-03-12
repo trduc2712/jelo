@@ -1,13 +1,18 @@
 .ant-menu {
+  padding: 8px;
+
   .ant-menu-item {
+    border-radius: 6px !important;
     margin: 0;
     width: 100%;
     background-color: oklch(0.269 0 0);
     color: #fff;
     border-right: none !important;
+    margin-bottom: 8px;
+    padding-left: 18px !important;
 
     &:hover {
-      background-color: oklch(0.269 0 0);
+      background-color: #963f02;
     }
 
     &:active {
@@ -25,19 +30,31 @@
   }
 
   .ant-menu-submenu {
+    border-radius: 6px !important;
+
+    i {
+      color: #fff !important;
+    }
+
     .ant-menu-submenu-title {
+      border-radius: 6px !important;
       margin: 0;
-      color: #fff;
       width: 100%;
+      padding-left: 18px !important;
+      margin-bottom: 8px !important;
 
       &:active {
         background-color: oklch(0.269 0 0) !important;
       }
+
+      .ant-menu-title-content {
+        color: #fff !important;
+      }
     }
 
     .ant-menu-item {
-      padding-left: 24px !important;
-      background-color: oklch(0.216 0.006 56.043);
+      border-radius: 6px !important;
+      padding-left: 18px !important;
 
       &:hover {
         background-color: oklch(0.216 0.006 56.043);
@@ -45,10 +62,15 @@
     }
 
     .ant-menu-item-selected {
+      border-radius: 6px !important;
       background-color: #bb4d00;
 
+      &:hover {
+        background-color: #d35a04 !important;
+      }
+
       &:active {
-        background-color: #f36704 !important;
+        background-color: #b44e05 !important;
       }
     }
   }

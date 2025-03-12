@@ -1,14 +1,13 @@
 import env from '../config/environment.js';
 import { Role } from '@prisma/client';
 
-type Token = 'access' | 'refresh';
-
 export const WHITELIST_DOMAINS: string[] = [env.FRONTEND_URL];
 
 export const WHITELIST_ROUTES: string[] = ['/auth/login', '/auth/register'];
 
 const userPermissions: string[] = [
   'create-user',
+  'read-user',
   'read-all-users',
   'update-user',
   'delete-user',
@@ -22,7 +21,8 @@ const categoryPermissions: string[] = [
 ];
 
 export const ROLE_PERMISSIONS = {
+  [Role.SUPER_ADMIN]: [...userPermissions, ...categoryPermissions],
   [Role.ADMIN]: [...userPermissions, ...categoryPermissions],
-  [Role.MODERATOR]: [...categoryPermissions],
+  [Role.MODERATOR]: ['read-all-users', ...categoryPermissions],
   [Role.CUSTOMER]: [''],
 };
