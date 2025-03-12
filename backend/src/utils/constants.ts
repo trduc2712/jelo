@@ -15,6 +15,7 @@ const userPermissions: string[] = [
 
 const categoryPermissions: string[] = [
   'create-category',
+  'read-category',
   'read-all-categories',
   'update-category',
   'delete-category',

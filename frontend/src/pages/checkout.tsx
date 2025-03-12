@@ -15,11 +15,13 @@ const Checkout: React.FC = () => {
     document.title = 'Checkout | Jelo';
   }, []);
 
-  const onFinish: FormProps<FieldType>['onFinish'] = values => {
+  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     console.log('Success:', values);
   };
 
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = errorInfo => {
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
+    errorInfo
+  ) => {
     console.log('Failed:', errorInfo);
   };
 
@@ -38,13 +40,15 @@ const Checkout: React.FC = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          layout="vertical">
+          layout="vertical"
+        >
           <div className="flex justify-between gap-6">
             <Form.Item<FieldType>
               label="Name"
               name="name"
               className="flex-1"
-              rules={[{ required: true, message: 'Please input your name!' }]}>
+              rules={[{ required: true, message: 'Please input your name!' }]}
+            >
               <Input />
             </Form.Item>
 
@@ -52,7 +56,8 @@ const Checkout: React.FC = () => {
               label="Phone"
               name="phone"
               className="flex-1"
-              rules={[{ required: true, message: 'Please input your phone!' }]}>
+              rules={[{ required: true, message: 'Please input your phone!' }]}
+            >
               <Input />
             </Form.Item>
           </div>
@@ -60,7 +65,8 @@ const Checkout: React.FC = () => {
           <Form.Item<FieldType>
             label="Address"
             name="address"
-            rules={[{ required: true, message: 'Please input your address!' }]}>
+            rules={[{ required: true, message: 'Please input your address!' }]}
+          >
             <Input />
           </Form.Item>
 
@@ -72,7 +78,8 @@ const Checkout: React.FC = () => {
                 required: true,
                 message: 'Please choose your payment method!',
               },
-            ]}>
+            ]}
+          >
             <Select
               onChange={handleChange}
               options={[

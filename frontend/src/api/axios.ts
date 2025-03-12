@@ -5,27 +5,27 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  config => {
+  (config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
       'accessToken'
     )}`;
 
     return config;
   },
-  err => {
+  (err) => {
     return Promise.reject(err);
   }
 );
 
 axiosInstance.interceptors.response.use(
-  response => {
+  (response) => {
     if (response) {
       return response;
     }
 
     return response;
   },
-  err => {
+  (err) => {
     if (err.response) {
       if (import.meta.env.DEV) {
         console.log(err.response);

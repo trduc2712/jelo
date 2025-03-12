@@ -72,6 +72,9 @@ const AdminNavMenu: React.FC = () => {
       case '/admin/categories':
         setSelectedKey(['category-list']);
         break;
+      case '/admin/categories/new':
+        setSelectedKey(['create-category']);
+        break;
       default:
         break;
     }

@@ -19,7 +19,7 @@ const Register: React.FC = () => {
     document.title = 'Register | Jelo';
   }, []);
 
-  const onFinish: FormProps<FieldType>['onFinish'] = async values => {
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     const { email, name, password } = values;
 
     try {
@@ -52,25 +52,29 @@ const Register: React.FC = () => {
         requiredMark={false}
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        layout="vertical">
+        layout="vertical"
+      >
         <Form.Item<FieldType>
           label="Email"
           name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}>
+          rules={[{ required: true, message: 'Please input your email!' }]}
+        >
           <Input />
         </Form.Item>
 
         <Form.Item<FieldType>
           label="Name"
           name="name"
-          rules={[{ required: true, message: 'Please input your name!' }]}>
+          rules={[{ required: true, message: 'Please input your name!' }]}
+        >
           <Input />
         </Form.Item>
 
         <Form.Item<FieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}>
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
           <Input.Password />
         </Form.Item>
 

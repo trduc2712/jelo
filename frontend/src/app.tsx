@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AdminLayout, AuthLayout, MainLayout } from './layouts';
 import {
   CategoryList,
+  CreateCategory,
+  EditCategory,
   Dashboard,
   OrderList,
   ProductList,
@@ -58,6 +60,11 @@ const App: React.FC = () => {
             <Route path="orders" element={<OrderList />} />
             <Route path="products" element={<ProductList />} />
             <Route path="categories" element={<CategoryList />} />
+            <Route
+              path="categories/edit/:categoryId"
+              element={<EditCategory />}
+            />
+            <Route path="categories/new" element={<CreateCategory />} />
           </Route>
 
           <Route

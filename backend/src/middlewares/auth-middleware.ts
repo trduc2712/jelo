@@ -12,7 +12,7 @@ export const authenticateToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (WHITELIST_ROUTES.some(route => req.path.endsWith(route))) {
+  if (WHITELIST_ROUTES.some((route) => req.path.endsWith(route))) {
     return next();
   }
 
@@ -38,7 +38,7 @@ export const authenticateToken = async (
   }
 };
 
-export const authorizeRole =
+export const authorizePermission =
   (requiredPermisson: string) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {

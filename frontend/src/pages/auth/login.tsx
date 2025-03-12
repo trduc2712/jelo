@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     document.title = 'Login | Jelo';
   }, []);
 
-  const onFinish: FormProps<FieldType>['onFinish'] = async values => {
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     const { email, password } = values;
 
     try {
@@ -63,18 +63,21 @@ const Login: React.FC = () => {
         requiredMark={false}
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        layout="vertical">
+        layout="vertical"
+      >
         <Form.Item<FieldType>
           label="Email"
           name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}>
+          rules={[{ required: true, message: 'Please input your email!' }]}
+        >
           <Input />
         </Form.Item>
 
         <Form.Item<FieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}>
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
           <Input.Password />
         </Form.Item>
 

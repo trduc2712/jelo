@@ -6,14 +6,14 @@ import {
   deleteUserById,
   editUser,
 } from '../../controllers/user-controller.js';
-import { authorizeRole } from '../../middlewares/auth-middleware.js';
+import { authorizePermission } from '../../middlewares/auth-middleware.js';
 
 const router = Router();
 
-router.post('/', authorizeRole('create-user'), createUser);
-router.get('/', authorizeRole('read-all-users'), getAllUsers);
-router.get('/:id', authorizeRole('read-user'), getUserById);
-router.put('/:id', authorizeRole('update-user'), editUser);
-router.delete('/:id', authorizeRole('delete-user'), deleteUserById);
+router.post('/', authorizePermission('create-user'), createUser);
+router.get('/', authorizePermission('read-all-users'), getAllUsers);
+router.get('/:id', authorizePermission('read-user'), getUserById);
+router.put('/:id', authorizePermission('update-user'), editUser);
+router.delete('/:id', authorizePermission('delete-user'), deleteUserById);
 
 export default router;

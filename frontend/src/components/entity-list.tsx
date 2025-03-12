@@ -64,12 +64,12 @@ const EntityList: React.FC<EntityListProps> = ({ entity, columns }) => {
       width: 30,
       render: (_: any, record: any) => {
         const dropdownActionItems: MenuProps['items'] = [
-          {
-            key: '1',
-            label: `View details`,
-            icon: <EyeOutlined />,
-            onClick: () => navigate(`/admin/${entity}s/${record.id}`),
-          },
+          // {
+          //   key: '1',
+          //   label: `View details`,
+          //   icon: <EyeOutlined />,
+          //   onClick: () => navigate(`/admin/${entity}s/${record.id}`),
+          // },
           {
             key: '2',
             label: `Edit this ${entity}`,
@@ -80,7 +80,8 @@ const EntityList: React.FC<EntityListProps> = ({ entity, columns }) => {
             key: '3',
             label: (
               <Tooltip
-                title={`${user?.id === record.id ? 'You cannot delete yourself' : ''}`}>
+                title={`${user?.id === record.id ? 'You cannot delete yourself' : ''}`}
+              >
                 {`Delete this ${entity}`}
               </Tooltip>
             ),
@@ -96,7 +97,8 @@ const EntityList: React.FC<EntityListProps> = ({ entity, columns }) => {
             <Dropdown
               menu={{ items: dropdownActionItems }}
               placement="bottomLeft"
-              trigger={['click']}>
+              trigger={['click']}
+            >
               <Button type="text" icon={<EllipsisOutlined />} />
             </Dropdown>
           </div>
@@ -115,7 +117,8 @@ const EntityList: React.FC<EntityListProps> = ({ entity, columns }) => {
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => navigate(`/admin/${entity}s/new`)}>
+            onClick={() => navigate(`/admin/${entity}s/new`)}
+          >
             Create {entity}
           </Button>
         </div>

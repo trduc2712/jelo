@@ -11,3 +11,4 @@ export { default as ProfileForm } from './profile-form';
 export { default as Provider } from './provider';
 export { default as RoleBasedRoute } from './role-based-route';
 export { default as UserForm } from './user-form';
+export { default as CategoryForm } from './category-form';

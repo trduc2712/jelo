@@ -136,16 +136,8 @@ const deleteUserById = async (
   currentUserId: number,
   targetUserId: number
 ): Promise<User> => {
-  const existingUser: User | null = await prisma.user.findFirst({
-    where: { id: targetUserId },
-  });
-
-  if (!existingUser) {
-    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
-  }
-
+  const existingUser: User | null = await getUserById(targetUserId);
   await checkDeletePermission(currentUserId, targetUserId);
-
   return prisma.user.delete({ where: { id: targetUserId } });
 };
 

@@ -20,7 +20,8 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
             colorBorder: 'black',
           },
         },
-      }}>
+      }}
+    >
       <AuthProvider>
         <ModalProvider>
           <NotificationProvider>{children}</NotificationProvider>

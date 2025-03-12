@@ -16,9 +16,19 @@ const AdminLayout: React.FC = () => {
     '/admin/users': 'User List',
     '/admin/categories': 'Category List',
     '/admin/users/new': 'Create User',
+    '/admin/categories/new': 'Create Category',
   };
 
   const getTitle = (pathName: string) => {
+    if (
+      pathName.startsWith('/admin/categories') &&
+      pathName !== '/admin/categories/new' &&
+      pathName !== '/admin/categories' &&
+      !pathName.startsWith('/admin/categories/edit')
+    ) {
+      return 'Category Detail';
+    }
+
     if (
       pathName.startsWith('/admin/users') &&
       pathName !== '/admin/users/new' &&
@@ -30,6 +40,10 @@ const AdminLayout: React.FC = () => {
 
     if (pathName.startsWith('/admin/users/edit')) {
       return 'Edit User';
+    }
+
+    if (pathName.startsWith('/admin/categories/edit')) {
+      return 'Edit Category';
     }
 
     return pathToTitle[pathName];

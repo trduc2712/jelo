@@ -12,7 +12,8 @@ interface AdminSidebarProps {
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ isHidden }) => {
   return (
     <AntSider
-      className={`admin-sidebar ${isHidden ? 'hidden' : ''} !bg-neutral-800`}>
+      className={`admin-sidebar ${isHidden ? 'hidden' : ''} !bg-neutral-800`}
+    >
       <AdminNavMenu />{' '}
     </AntSider>
   );

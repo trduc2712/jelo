@@ -33,7 +33,8 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.antgroup.com">
+          href="https://www.antgroup.com"
+        >
           1st menu item
         </a>
       ),
@@ -44,7 +45,8 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.aliyun.com">
+          href="https://www.aliyun.com"
+        >
           2nd menu item (disabled)
         </a>
       ),
@@ -56,7 +58,8 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.luohanacademy.com">
+          href="https://www.luohanacademy.com"
+        >
           3rd menu item (disabled)
         </a>
       ),
@@ -156,7 +159,8 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
       <Drawer
         title="Profile"
         onClose={handleCloseProfileDrawer}
-        open={isProfileDrawerOpen}>
+        open={isProfileDrawerOpen}
+      >
         <ProfileForm />
       </Drawer>
       <Drawer
@@ -168,7 +172,8 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
           body: { padding: 0, overflow: 'hidden' },
         }}
         width={200}
-        getContainer={false}>
+        getContainer={false}
+      >
         <AdminNavMenu />
       </Drawer>
     </>

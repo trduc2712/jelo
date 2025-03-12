@@ -108,11 +108,12 @@ const Header: React.FC = () => {
                 </h1>
               </Link>
               <div className="flex">
-                {navbarItems.map(item => (
+                {navbarItems.map((item) => (
                   <div
                     key={item.key}
                     className="!px-4 uppercase cursor-pointer hover:text-[#bb4d00]"
-                    onClick={() => navigate(item.path)}>
+                    onClick={() => navigate(item.path)}
+                  >
                     {item.label}
                   </div>
                 ))}
@@ -148,13 +149,15 @@ const Header: React.FC = () => {
           header: { display: 'none' },
           body: { padding: 0, overflow: 'hidden' },
         }}
-        getContainer={false}>
+        getContainer={false}
+      >
         <div className="flex flex-col !p-6">
-          {navbarItems.map(item => (
+          {navbarItems.map((item) => (
             <div
               key={item.key}
               className="uppercase cursor-pointer hover:text-[#bb4d00] !pb-4"
-              onClick={() => navigate(item.path)}>
+              onClick={() => navigate(item.path)}
+            >
               {item.label}
             </div>
           ))}
@@ -163,7 +166,8 @@ const Header: React.FC = () => {
       <Drawer
         title="Profile"
         onClose={closeProfileDrawer}
-        open={isProfileDrawerOpen}>
+        open={isProfileDrawerOpen}
+      >
         <ProfileForm />
       </Drawer>
       <Drawer title="Cart" onClose={closeCartDrawer} open={isCartDrawerOpen}>

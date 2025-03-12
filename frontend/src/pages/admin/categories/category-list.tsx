@@ -3,7 +3,7 @@ import { User } from '../../../interfaces/user';
 import type { TableProps } from 'antd';
 import { EntityList } from '../../../components';
 
-const Categories: React.FC = () => {
+const CategoryList: React.FC = () => {
   const columns: TableProps<User>['columns'] = [
     {
       title: 'ID',
@@ -20,4 +20,4 @@ const Categories: React.FC = () => {
   return <EntityList entity="categorie" columns={columns} />;
 };
 
-export default Categories;
+export default CategoryList;

@@ -25,7 +25,8 @@ const Error: React.FC<ErrorProps> = ({ statusCode, message }) => {
           color="primary"
           variant="outlined"
           onClick={() => navigate('/')}
-          icon={<ArrowLeftOutlined />}>
+          icon={<ArrowLeftOutlined />}
+        >
           Return to home page
         </Button>
       )}

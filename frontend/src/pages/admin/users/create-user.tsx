@@ -13,11 +13,7 @@ const CreateUser: React.FC = () => {
     navigate('/admin/users');
   };
 
-  return (
-    <div>
-      <UserForm onFinish={handleCreateUser} />
-    </div>
-  );
+  return <UserForm onFinish={handleCreateUser} />;
 };
 
 export default CreateUser;
