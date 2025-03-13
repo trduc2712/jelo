@@ -4,6 +4,7 @@ import ApiError from '../utils/ApiError.js';
 import { WHITELIST_ROUTES, ROLE_PERMISSIONS } from '../utils/constants.js';
 import { verifyToken } from '../utils/token-util.js';
 import { userServices } from '../services/user-service.js';
+import { authServices } from '../services/auth-service.js';
 import { Role } from '@prisma/client';
 import { JwtPayload } from 'jsonwebtoken';
 
@@ -22,6 +23,7 @@ export const authenticateToken = async (
     try {
       const decodedToken: JwtPayload | string = verifyToken(token);
       const userId: number = Number(decodedToken.sub);
+      await userServices.updateUserLastActive(userId);
       (req as any).userId = userId;
 
       next();

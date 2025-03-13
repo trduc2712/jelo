@@ -5,6 +5,8 @@ import { userServices } from '../services/user-service.js';
 import { authServices } from '../services/auth-service.js';
 import { prisma } from '../config/prisma.js';
 import { User } from '@prisma/client';
+import { verifyToken, sendRefreshTokenCookie } from '../utils/token-util.js';
+import { JwtPayload } from 'jsonwebtoken';
 
 export const register = async (
   req: Request,
@@ -30,7 +32,11 @@ export const login = async (
 ) => {
   try {
     const { email, password } = req.body;
-    const accessToken: string = await authServices.login(email, password);
+    const { accessToken, refreshToken } = await authServices.login(
+      email,
+      password
+    );
+    sendRefreshTokenCookie(res, refreshToken);
 
     res.status(StatusCodes.OK).json({
       message: 'User authenticated successfully',
@@ -48,13 +54,11 @@ export const getCurrentUser = async (
 ) => {
   try {
     const userId: number = (req as any).userId;
-
     if (!userId) {
       throw new ApiError(StatusCodes.UNAUTHORIZED, 'Not logged in yet');
     }
 
     const user: User = await userServices.getUserById(userId);
-
     res.status(StatusCodes.OK).json({
       message: 'User data fetched successfully',
       user,
@@ -71,14 +75,43 @@ export const logout = async (
 ) => {
   try {
     const userId: number = (req as any).userId;
-
-    await prisma.user.update({
-      where: { id: userId },
-      data: { refreshToken: null, refreshTokenExpiresAt: null },
-    });
+    await authServices.clearRefreshToken(userId);
 
     res.status(StatusCodes.OK).json({
       message: 'Log out successfully',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const refreshToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const refreshToken: string = req.cookies.refreshToken;
+    if (!refreshToken) {
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Refresh token missing');
+    }
+
+    const decodedToken: JwtPayload | string = verifyToken(refreshToken);
+    const userId: number = Number(decodedToken.sub);
+
+    const isRefreshTokenExpired: boolean =
+      await authServices.isRefreshTokenExpired(userId);
+    if (isRefreshTokenExpired) {
+      throw new ApiError(StatusCodes.UNAUTHORIZED, 'Refresh token has expired');
+    }
+
+    const { newAccessToken, newRefreshToken } =
+      await authServices.refreshToken(userId);
+    sendRefreshTokenCookie(res, newRefreshToken);
+
+    res.status(StatusCodes.OK).json({
+      message: 'Token refreshed successfully',
+      newAccessToken,
     });
   } catch (err) {
     next(err);

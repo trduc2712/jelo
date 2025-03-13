@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 import type { FormProps } from 'antd';
-import { login, getCurrentUser } from '../../api/auth-api';
-import { useAuth, useNotification } from '../../hooks';
+import { useAuth } from '../../hooks';
 
 type FieldType = {
   email: string;
@@ -11,50 +10,14 @@ type FieldType = {
 };
 
 const Login: React.FC = () => {
-  const notificationApi = useNotification();
-  const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { login } = useAuth();
 
   useEffect(() => {
     document.title = 'Login | Jelo';
   }, []);
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    const { email, password } = values;
-
-    try {
-      const dataLogin = await login({ email, password });
-
-      if (dataLogin && !dataLogin.statusCode) {
-        const dataGetCurrentUser = await getCurrentUser();
-        const user = dataGetCurrentUser.user;
-        setUser(user);
-
-        if (user.status === 'BANNED') {
-          return navigate('/banned');
-        }
-
-        notificationApi.success({
-          message: 'Success',
-          description:
-            user.role === 'ADMIN'
-              ? 'Welcome back, administrator!'
-              : dataLogin.message,
-        });
-        navigate(user.role === 'ADMIN' ? '/admin' : '/');
-      } else {
-        notificationApi.error({
-          message: 'Error',
-          description: dataLogin.message,
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      notificationApi.error({
-        message: 'Error',
-        description: 'An unexpected error occurred during the login process',
-      });
-    }
+    login(values);
   };
 
   return (

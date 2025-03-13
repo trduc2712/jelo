@@ -15,52 +15,52 @@ const useEntity = (entity: string) => {
     return { ...restInfo, avatarUrl };
   };
 
-  const handleResponse = (data: any) => {
-    if (data && !data.statusCode) {
+  const handleResponse = (resData: any) => {
+    if (resData && !resData.statusCode) {
       notificationApi.success({
         message: 'Success',
-        description: data.message,
+        description: resData.message,
       });
     } else {
       notificationApi.error({
         message: 'Error',
-        description: data.message,
+        description: resData.message,
       });
     }
   };
 
   const createEntity = async (entityInfo: any) => {
     let finalEntityInfo: any = await processEntityInfo(entityInfo);
-    const data = await baseApi.createEntity(entity, finalEntityInfo);
-    handleResponse(data);
+    const resData = await baseApi.createEntity(entity, finalEntityInfo);
+    handleResponse(resData);
   };
 
   const editEntity = async (entityId: number, entityInfo: any) => {
     let finalEntityInfo: any = await processEntityInfo(entityInfo);
-    const data = await baseApi.editEntity(entity, entityId, finalEntityInfo);
-    handleResponse(data);
+    const resData = await baseApi.editEntity(entity, entityId, finalEntityInfo);
+    handleResponse(resData);
   };
 
   const getEntityById = async (entityId: number) => {
-    const data = await baseApi.getEntityById(entity, entityId);
-    return data[entity];
+    const resData = await baseApi.getEntityById(entity, entityId);
+    return resData[entity];
   };
 
   const getAllEntities = async () => {
-    const data = await baseApi.getAllEntities(entity);
-    let entities: any[] = data[`${entity}s`];
+    const resData = await baseApi.getAllEntities(entity);
+    let entities: any[] = resData[`${entity}s`];
     entities = entities.map((entity) => ({ ...entity, key: entity.id }));
     return entities;
   };
 
   const deleteEntity = async (entityId: number) => {
-    const data = await baseApi.deleteEntityById(entity, entityId);
-    handleResponse(data);
+    const resData = await baseApi.deleteEntityById(entity, entityId);
+    handleResponse(resData);
   };
 
   const getEntityCount = async () => {
-    const data = await baseApi.getAllEntities(entity);
-    return data.meta.total;
+    const resData = await baseApi.getAllEntities(entity);
+    return resData.meta.total;
   };
 
   return {

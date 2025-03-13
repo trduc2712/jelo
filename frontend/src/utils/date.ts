@@ -6,6 +6,6 @@ export const formatIso8601 = (
   isHumanReadable: boolean = true
 ): string => {
   return isHumanReadable
-    ? dayjs(isoString).format(`${fullDate ? 'h:mm A' : ''}DD MMM, YYYY`)
+    ? dayjs(isoString).format(`${fullDate ? 'h:mm A ' : ''}DD MMM YYYY`)
     : dayjs(isoString).format('YYYY-MM-DD');
 };

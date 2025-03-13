@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../config/prisma.js';
 import ApiError from '../utils/ApiError.js';
 import bcrypt from 'bcryptjs';
-import { Role, UserStatus, User, Gender } from '@prisma/client';
+import { Role, UserStatus, User, Gender, Prisma } from '@prisma/client';
 
 const getUserByEmail = async (email: string): Promise<User> => {
   const foundUser: User | null = await prisma.user.findFirst({
@@ -35,6 +35,8 @@ const getUserById = async (
           status: true,
           createdAt: true,
           dateOfBirth: true,
+          lastActiveAt: true,
+          lastLoginAt: true,
           gender: true,
           updatedAt: true,
         },
@@ -67,6 +69,8 @@ const getAllUsers = async (isFullInfo: boolean = false): Promise<User[]> => {
           status: true,
           createdAt: true,
           dateOfBirth: true,
+          lastActiveAt: true,
+          lastLoginAt: true,
           gender: true,
           updatedAt: true,
         },
@@ -135,7 +139,7 @@ const createUser = async ({
 const deleteUserById = async (
   currentUserId: number,
   targetUserId: number
-): Promise<User> => {
+): Promise<Prisma.BatchPayload> => {
   const existingUser: User | null = await getUserById(targetUserId);
   await checkDeletePermission(currentUserId, targetUserId);
   return prisma.user.delete({ where: { id: targetUserId } });
@@ -179,12 +183,36 @@ const checkDeletePermission = async (
 
   const targetUser: User = await getUserById(targetUserId);
   const currentUser: User = await getUserById(currentUserId);
-  if (targetUser.role === 'ADMIN' || currentUser.role !== 'SUPER_ADMIN') {
+  if (targetUser.role === 'ADMIN' && currentUser.role !== 'SUPER_ADMIN') {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
       'You cannot delete another administrator'
     );
   }
+};
+
+const updateInactiveUsers = async (): Promise<Prisma.BatchPayload> => {
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  await prisma.user.updateMany({
+    where: {
+      status: 'ACTIVE',
+      lastActiveAt: { lt: sevenDaysAgo },
+    },
+    data: {
+      status: 'INACTIVE',
+    },
+  });
+};
+
+const updateUserLastActive = async (userId: number): Promise<void> => {
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      lastActiveAt: new Date(),
+    },
+  });
 };
 
 export const userServices = {
@@ -196,4 +224,6 @@ export const userServices = {
   editUser,
   checkDeletePermission,
   countAllUsers,
+  updateInactiveUsers,
+  updateUserLastActive,
 };

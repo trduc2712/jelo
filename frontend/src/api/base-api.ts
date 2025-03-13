@@ -1,18 +1,18 @@
-import axiosInstance from './axios';
+import axiosClient from './axios-client';
 
 const createEntity = async (entity: string, entityInfo: any) => {
-  const response = await axiosInstance.post(`${entity}s`, entityInfo);
-  return response.data;
+  const res = await axiosClient.post(`${entity}s`, entityInfo);
+  return res.data;
 };
 
 const getAllEntities = async (entity: string) => {
-  const response = await axiosInstance.get(`${entity}s`);
-  return response.data;
+  const res = await axiosClient.get(`${entity}s`);
+  return res.data;
 };
 
 const getEntityById = async (entity: string, entityId: number) => {
-  const response = await axiosInstance.get(`/${entity}s/${entityId}`);
-  return response.data;
+  const res = await axiosClient.get(`/${entity}s/${entityId}`);
+  return res.data;
 };
 
 export const editEntity = async (
@@ -26,21 +26,18 @@ export const editEntity = async (
     finalEntityInfo = userInfoWithoutEmail;
   }
 
-  const response = await axiosInstance.put(
-    `/${entity}s/${entityId}`,
-    finalEntityInfo
-  );
-  return response.data;
+  const res = await axiosClient.put(`/${entity}s/${entityId}`, finalEntityInfo);
+  return res.data;
 };
 
 const deleteEntityById = async (entity: string, entityId: number) => {
-  const response = await axiosInstance.delete(`/${entity}s/${entityId}`);
-  return response.data;
+  const res = await axiosClient.delete(`/${entity}s/${entityId}`);
+  return res.data;
 };
 
 const getEntityCount = async (entity: string) => {
-  const response = await axiosInstance.get(`${entity}s`);
-  return response.data;
+  const res = await axiosClient.get(`${entity}s`);
+  return res.data;
 };
 
 export const baseApi = {

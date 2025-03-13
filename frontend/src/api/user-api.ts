@@ -1,26 +1,23 @@
 import { User } from '../interfaces/user';
-import axiosInstance from './axios';
+import axiosClient from './axios-client';
 
 export const getAllUsers = async () => {
-  const response = await axiosInstance.get('/users');
-  return response.data;
+  const res = await axiosClient.get('/users');
+  return res.data;
 };
 
 export const editUser = async (userId: number, userInfo: User) => {
   const { email, ...userInfoWithoutEmail } = userInfo;
-  const response = await axiosInstance.put(
-    `/users/${userId}`,
-    userInfoWithoutEmail
-  );
-  return response.data;
+  const res = await axiosClient.put(`/users/${userId}`, userInfoWithoutEmail);
+  return res.data;
 };
 
 export const createUser = async (user: User) => {
-  const response = await axiosInstance.post('/users', user);
-  return response.data;
+  const res = await axiosClient.post('/users', user);
+  return res.data;
 };
 
 export const deleteUserById = async (userId: number) => {
-  const response = await axiosInstance.delete(`/users/${userId}`);
-  return response.data;
+  const res = await axiosClient.delete(`/users/${userId}`);
+  return res.data;
 };

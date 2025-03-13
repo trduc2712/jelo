@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons';
 import { Form, Input, Button, Avatar, Modal } from 'antd';
 import type { FormProps } from 'antd';
-import { useAuth, useNotification } from '../hooks';
-import { logout } from '../api/auth-api';
+import { useAuth } from '../hooks';
 
 type FieldType = {
   avatarUrl: string;
@@ -17,9 +15,7 @@ type FieldType = {
 const ProfileForm: React.FC = () => {
   const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] =
     useState(false);
-  const navigate = useNavigate();
-  const { user, setUser } = useAuth();
-  const notificationApi = useNotification();
+  const { logout, user } = useAuth();
 
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     console.log('Success:', values);
@@ -33,22 +29,7 @@ const ProfileForm: React.FC = () => {
 
   const handleOk = async () => {
     setIsConfirmLogoutModalOpen(false);
-    const data = await logout();
-
-    if (data && !data.statusCode) {
-      notificationApi.success({
-        message: 'Success',
-        description: data.message,
-      });
-
-      setUser(null);
-      navigate('/auth/login');
-    } else {
-      notificationApi.error({
-        message: 'Error',
-        description: data.message,
-      });
-    }
+    logout();
   };
 
   const handleCancel = () => {

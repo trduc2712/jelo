@@ -1,9 +1,16 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dayjs from 'dayjs';
+import ms from 'ms';
 import env from '../config/environment.js';
+import { Request } from 'express';
+import {
+  ACCESS_TOKEN_EXPIRED_AT,
+  REFRESH_TOKEN_EXPIRED_AT,
+} from './constants.js';
 
 export const generateToken = (userId: number, type: 'access' | 'refresh') => {
-  const expiresIn = type === 'access' ? '1d' : '7d';
+  const expiresIn =
+    type === 'access' ? ACCESS_TOKEN_EXPIRED_AT : REFRESH_TOKEN_EXPIRED_AT;
   const iat = dayjs().unix();
 
   const payload = {
@@ -30,4 +37,13 @@ export const generateAuthToken = (
   const refreshTokenExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
   return { accessToken, refreshToken, refreshTokenExpiresAt };
+};
+
+export const sendRefreshTokenCookie = (res: Response, refreshToken: string) => {
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    maxAge: ms(REFRESH_TOKEN_EXPIRED_AT),
+  });
 };

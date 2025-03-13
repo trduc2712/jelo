@@ -39,7 +39,9 @@ const getAllCategories = async (): Promise<Category[]> => {
   return categories;
 };
 
-const deleteCategoryById = async (categoryId: number): Promise<Category> => {
+const deleteCategoryById = async (
+  categoryId: number
+): Promise<Prisma.BatchPayload> => {
   await getCategoryById(categoryId);
   return await prisma.category.delete({ where: { id: categoryId } });
 };

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Layout, Divider } from 'antd';
+import { Layout } from 'antd';
 import { AdminHeader, AdminSidebar } from '../components';
 
 const { Content } = Layout;
 
 const AdminLayout: React.FC = () => {
-  const [title, setTitle] = useState<string>('Title');
   const [isSidebarHidden, setIsSidebarHidden] = useState<boolean>(false);
 
   const location = useLocation();
@@ -51,7 +50,6 @@ const AdminLayout: React.FC = () => {
 
   useEffect(() => {
     document.title = `${getTitle(location.pathname)} | Jelo Admin`;
-    setTitle(getTitle(location.pathname));
   }, [location.pathname]);
 
   const handleToggleSidebar = () => {
@@ -64,11 +62,7 @@ const AdminLayout: React.FC = () => {
       <Layout>
         <AdminHeader onToggleSidebar={handleToggleSidebar} />
         <Content className="mt-[64px] !p-4 bg-gray-100">
-          <div className="bg-white !p-4 shadow-lg rounded-lg">
-            <h1 className="font-bold text-2xl">{title}</h1>
-            <Divider />
-            <Outlet />
-          </div>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

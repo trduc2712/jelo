@@ -1,6 +1,11 @@
 import React from 'react';
 import { ConfigProvider } from 'antd';
-import { AuthProvider, ModalProvider, NotificationProvider } from '../contexts';
+import {
+  AuthProvider,
+  ModalProvider,
+  NotificationProvider,
+  LoadingProvider,
+} from '../contexts';
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -22,11 +27,13 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
         },
       }}
     >
-      <AuthProvider>
+      <NotificationProvider>
         <ModalProvider>
-          <NotificationProvider>{children}</NotificationProvider>
+          <AuthProvider>
+            <LoadingProvider>{children}</LoadingProvider>
+          </AuthProvider>
         </ModalProvider>
-      </AuthProvider>
+      </NotificationProvider>
     </ConfigProvider>
   );
 };

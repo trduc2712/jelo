@@ -1,17 +1,35 @@
 import React from 'react';
-import { User, Role, Gender, UserStatus } from '../../../interfaces/user';
+import { User, Role, Gender, UserStatus } from '../../interfaces/user';
 import { Tag, Avatar, Badge, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import type { TableProps } from 'antd';
-import { useAuth } from '../../../hooks';
-import { EntityList } from '../../../components';
-import { toUpperCaseFirstLetter } from '../../../utils/string';
-import { formatIso8601 } from '../../../utils/date';
+import { useAuth } from '../../hooks';
+import { EntityList } from '../../components';
+import { formatIso8601 } from '../../utils/date';
 
 const { Paragraph } = Typography;
 
 const UserList: React.FC = () => {
   const { user } = useAuth();
+
+  const roleColor: Record<string, string> = {
+    SUPER_ADMIN: 'red',
+    ADMIN: 'volcano',
+    MODERATOR: 'blue',
+    CUSTOMER: 'green',
+  };
+
+  const roleLabel: Record<string, string> = {
+    SUPER_ADMIN: 'Super Admin',
+    ADMIN: 'Admin',
+    MODERATOR: 'Moderator',
+    CUSTOMER: 'Customer',
+  };
+
+  const genderLabel: Record<string, string> = {
+    MALE: 'Male',
+    FEMALE: 'Female',
+  };
 
   const columns: TableProps<User>['columns'] = [
     {
@@ -55,13 +73,19 @@ const UserList: React.FC = () => {
       ),
     },
     {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      width: 120,
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend', 'descend'],
+    },
+    {
       title: 'Gender',
       dataIndex: 'gender',
       key: 'gender',
       width: 30,
-      render: (gender: Gender) => (
-        <span>{gender === 'MALE' ? 'Male' : 'Female'}</span>
-      ),
+      render: (gender: Gender) => <span>{genderLabel[gender]}</span>,
       filters: [
         { text: 'Male', value: 'MALE' },
         { text: 'Female', value: 'FEMALE' },
@@ -75,11 +99,7 @@ const UserList: React.FC = () => {
       dataIndex: 'role',
       width: 60,
       render: (role: Role) => (
-        <Tag
-          color={`${role === 'ADMIN' ? 'volcano' : role === 'MODERATOR' ? 'orange' : 'green'}`}
-        >
-          {toUpperCaseFirstLetter(role.toLowerCase())}
-        </Tag>
+        <Tag color={roleColor[role]}>{roleLabel[role]}</Tag>
       ),
       filters: [
         { text: 'Admin', value: 'ADMIN' },
@@ -109,31 +129,14 @@ const UserList: React.FC = () => {
       filterMultiple: false,
     },
     {
-      title: 'Last Login At',
-      dataIndex: 'lastLoginAt',
-      key: 'last-login-at',
+      title: 'Last Active At',
+      dataIndex: 'lastActiveAt',
+      key: 'last-active-at',
       width: 100,
-      render: (lastLoginAt: Date) => formatIso8601(lastLoginAt),
+      render: (lastActiveAt: Date) =>
+        lastActiveAt ? formatIso8601(lastActiveAt, true, true) : 'Never active',
       sorter: (a, b) =>
-        new Date(a.lastLoginAt).getTime() - new Date(b.lastLoginAt).getTime(),
-    },
-    {
-      title: 'Date Added',
-      dataIndex: 'createdAt',
-      key: 'date-added',
-      width: 100,
-      render: (createdAt: Date) => formatIso8601(createdAt),
-      sorter: (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-    },
-    {
-      title: 'Last Updated',
-      dataIndex: 'updatedAt',
-      key: 'last-updated',
-      width: 100,
-      render: (updatedAt: Date) => formatIso8601(updatedAt),
-      sorter: (a, b) =>
-        new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
+        new Date(a.lastActiveAt).getTime() - new Date(b.lastActiveAt).getTime(),
     },
   ];
 

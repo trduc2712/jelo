@@ -17,6 +17,7 @@ export interface User {
   dateOfBirth?: Date;
   status: UserStatus;
   lastLoginAt: Date;
+  lastActiveAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }

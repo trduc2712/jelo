@@ -1,9 +1,16 @@
 import env from '../config/environment.js';
 import { Role } from '@prisma/client';
 
+export const ACCESS_TOKEN_EXPIRED_AT: string = '10m';
+export const REFRESH_TOKEN_EXPIRED_AT: string = '7d';
+
 export const WHITELIST_DOMAINS: string[] = [env.FRONTEND_URL];
 
-export const WHITELIST_ROUTES: string[] = ['/auth/login', '/auth/register'];
+export const WHITELIST_ROUTES: string[] = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/refresh',
+];
 
 const userPermissions: string[] = [
   'create-user',

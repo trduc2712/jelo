@@ -1,6 +1,6 @@
-import axiosInstance from './axios';
+import axiosClient from './axios-client';
 
-export const register = async ({
+const register = async ({
   email,
   name,
   password,
@@ -9,43 +9,42 @@ export const register = async ({
   name: string;
   password: string;
 }) => {
-  const response = await axiosInstance.post('/auth/register', {
+  const res = await axiosClient.post('/auth/register', {
     email,
     name,
     password,
   });
 
-  return response.data;
+  return res.data;
 };
 
-export const login = async ({
+const login = async ({
   email,
   password,
 }: {
   email: string;
   password: string;
 }) => {
-  const response = await axiosInstance.post('/auth/login', {
+  const res = await axiosClient.post('/auth/login', {
     email,
     password,
   });
-
-  if (response.data.accessToken) {
-    localStorage.setItem('accessToken', response.data.accessToken);
+  if (res.data.accessToken) {
+    localStorage.setItem('accessToken', res.data.accessToken);
   }
 
-  return response.data;
+  return res.data;
 };
 
-export const getCurrentUser = async () => {
-  const response = await axiosInstance.get('/auth/me');
-
-  return response.data;
+const getCurrentUser = async () => {
+  const res = await axiosClient.get('/auth/me');
+  return res.data;
 };
 
-export const logout = async () => {
-  const response = await axiosInstance.post('/auth/logout');
+const logout = async () => {
+  const res = await axiosClient.post('/auth/logout');
   localStorage.removeItem('accessToken');
-
-  return response.data;
+  return res.data;
 };
+
+export const authApi = { register, login, getCurrentUser, logout };

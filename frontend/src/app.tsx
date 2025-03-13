@@ -17,16 +17,13 @@ import {
   Home,
   ProductDetail,
   Search,
-  CreateUser,
-  UserDetail,
-  EditUser,
 } from './pages';
 import { RoleBasedRoute, Provider } from './components';
 
 const App: React.FC = () => {
   return (
-    <Provider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Provider>
         <Routes>
           <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
@@ -54,9 +51,6 @@ const App: React.FC = () => {
           >
             <Route index element={<Dashboard />} />
             <Route path="users" element={<UserList />} />
-            <Route path="users/:userId" element={<UserDetail />} />
-            <Route path="users/edit/:userId" element={<EditUser />} />
-            <Route path="users/new" element={<CreateUser />} />
             <Route path="orders" element={<OrderList />} />
             <Route path="products" element={<ProductList />} />
             <Route path="categories" element={<CategoryList />} />
@@ -85,8 +79,8 @@ const App: React.FC = () => {
             element={<Error statusCode={404} message="Page cannot be found." />}
           />
         </Routes>
-      </BrowserRouter>
-    </Provider>
+      </Provider>
+    </BrowserRouter>
   );
 };
 

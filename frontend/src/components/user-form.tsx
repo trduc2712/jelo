@@ -3,11 +3,10 @@ import {
   Form,
   Input,
   Select,
-  Row,
-  Col,
   Button,
   Upload,
   DatePicker,
+  FormInstance,
 } from 'antd';
 import { User } from '../interfaces/user';
 import type { DatePickerProps } from 'antd';
@@ -19,6 +18,7 @@ import { formatIso8601 } from '../utils/date';
 const { TextArea } = Input;
 
 interface UserFormProps {
+  form: FormInstance;
   onFinish?: (values: User) => void;
   initialValues?: User;
   isEdit?: boolean;
@@ -26,6 +26,7 @@ interface UserFormProps {
 }
 
 const UserForm: React.FC<UserFormProps> = ({
+  form,
   onFinish,
   initialValues,
   isEdit = false,
@@ -33,9 +34,9 @@ const UserForm: React.FC<UserFormProps> = ({
 }) => {
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
   const [avatar, setAvatar] = useState<File | null>(null);
-  const [form] = Form.useForm();
 
   const roles = [
+    { value: 'SUPER_ADMIN', label: 'Super admin' },
     { value: 'ADMIN', label: 'Admin' },
     { value: 'MODERATOR', label: 'Moderator' },
     { value: 'CUSTOMER', label: 'Customer' },
@@ -52,11 +53,21 @@ const UserForm: React.FC<UserFormProps> = ({
     { value: 'FEMALE', label: 'Female' },
   ];
 
-  useEffect(() => {
-    if (!initialValues) return;
+  const createImageFromUrl = async (url: string) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const file = new File([blob], 'avatar.jpg', { type: blob.type });
+    setAvatar(file);
+    setAvatarUrl(URL.createObjectURL(file));
+  };
 
-    setAvatarUrl(initialValues.avatarUrl);
-    const formattedDate = initialValues.dateOfBirth
+  useEffect(() => {
+    if (initialValues && initialValues.avatarUrl) {
+      createImageFromUrl(initialValues.avatarUrl);
+    } else {
+      setAvatarUrl('');
+    }
+    const formattedDate = initialValues?.dateOfBirth
       ? formatIso8601(initialValues.dateOfBirth)
       : undefined;
     form.setFieldsValue({
@@ -77,16 +88,6 @@ const UserForm: React.FC<UserFormProps> = ({
       setAvatarUrl(avatarUrl);
     }
   }, [avatar]);
-
-  const uploadButton = (
-    <button
-      style={{ border: 0, background: 'none' }}
-      type="button"
-      className="cursor-pointer"
-    >
-      <PlusOutlined />
-    </button>
-  );
 
   const customRequest = (info: any) => {
     setAvatar(info.file);
@@ -125,10 +126,28 @@ const UserForm: React.FC<UserFormProps> = ({
             name="avatar"
             listType="picture-circle"
             showUploadList={false}
+            fileList={
+              avatar
+                ? [
+                    {
+                      uid: '1',
+                      name: 'avatar.jpg',
+                      status: 'done',
+                      url: avatarUrl,
+                    },
+                  ]
+                : []
+            }
             customRequest={customRequest}
-            className="shadow-lg"
+            className="shadow-2xl"
           >
-            {uploadButton}
+            <button
+              style={{ border: 0, background: 'none' }}
+              type="button"
+              className="cursor-pointer"
+            >
+              <PlusOutlined />
+            </button>
           </Upload>
         ) : (
           <div
@@ -187,6 +206,7 @@ const UserForm: React.FC<UserFormProps> = ({
 
       <Form.Item<IUserForm> label="Date of Birth" name="dateOfBirth">
         <DatePicker
+          className="!w-full"
           onChange={handleDateOfBirthChange}
           disabledDate={disabledFutureDate}
         />

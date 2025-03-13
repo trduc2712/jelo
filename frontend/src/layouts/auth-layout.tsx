@@ -15,7 +15,7 @@ const AuthLayout: React.FC = () => {
 
   return (
     <div className="font-[Arial] h-screen flex items-center justify-center bg-[#262626]">
-      <div className="bg-white !p-4 w-[400px] flex flex-col">
+      <div className="bg-white rounded-md !p-4 w-[400px] flex flex-col">
         <h1 className="text-2xl font-bold text-center !mb-6 text-[#bb4d00]">
           {title}
         </h1>

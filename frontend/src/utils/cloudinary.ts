@@ -9,13 +9,13 @@ export const uploadImage = async (image: File) => {
   );
 
   try {
-    const response = await axios.post(
+    const res = await axios.post(
       `https://api.cloudinary.com/v1_1/${
         import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
       }/image/upload`,
       formData
     );
-    return response.data.secure_url;
+    return res.data.secure_url;
   } catch (error) {
     console.log('Error uploading to Cloudinary:', error);
   }

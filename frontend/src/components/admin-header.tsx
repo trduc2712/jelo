@@ -6,9 +6,11 @@ import {
   UserOutlined,
   ArrowLeftOutlined,
   DownOutlined,
+  LogoutOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 import { Breadcrumb, ProfileForm, AdminNavMenu } from '.';
-import { useAuth } from '../hooks';
+import { useAuth, useModal } from '../hooks';
 import type { MenuProps } from 'antd';
 
 const { Header: AntHeader } = Layout;
@@ -23,52 +25,40 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ onToggleSidebar }) => {
   const [isNavDrawerOpen, setIsNavDrawerOpen] = useState<boolean>(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(true);
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | undefined>('');
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const modalApi = useModal();
   const navigate = useNavigate();
+
+  const showConfirmLogoutModal = () => {
+    modalApi.confirm({
+      title: 'Confirm Logout',
+      content: `Are you sure you want to log out?`,
+      onOk: () => logout(),
+      okText: 'Log out',
+      okType: 'danger',
+      onCancel: () => {},
+      cancelText: 'No',
+    });
+  };
 
   const dropdownItems: MenuProps['items'] = [
     {
       key: '1',
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          1st menu item
-        </a>
-      ),
+      label: 'View profile',
+      icon: <ProfileOutlined />,
     },
     {
       key: '2',
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          2nd menu item (disabled)
-        </a>
-      ),
-      disabled: true,
+      label: 'Second item',
+    },
+    {
+      type: 'divider',
     },
     {
       key: '3',
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          3rd menu item (disabled)
-        </a>
-      ),
-      disabled: true,
-    },
-    {
-      key: '4',
-      danger: true,
-      label: 'a danger item',
+      icon: <LogoutOutlined />,
+      label: 'Log out',
+      onClick: showConfirmLogoutModal,
     },
   ];
 

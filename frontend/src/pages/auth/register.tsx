@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 import type { FormProps } from 'antd';
-import { useNotification } from '../../hooks';
-import { register } from '../../api/auth-api';
+import { useAuth } from '../../hooks';
 
 type FieldType = {
   email: string;
@@ -12,38 +11,14 @@ type FieldType = {
 };
 
 const Register: React.FC = () => {
-  const notificationApi = useNotification();
-  const navigate = useNavigate();
+  const { register } = useAuth();
 
   useEffect(() => {
     document.title = 'Register | Jelo';
   }, []);
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    const { email, name, password } = values;
-
-    try {
-      const data = await register({ email, name, password });
-
-      if (data && !data.statusCode) {
-        notificationApi.success({
-          message: 'Success',
-          description: data.message,
-        });
-        navigate('/auth/login');
-      } else {
-        notificationApi.error({
-          message: 'Error',
-          description: data.message,
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      notificationApi.error({
-        message: 'Error',
-        description: 'An unexpected error occurred during the login process',
-      });
-    }
+    register(values);
   };
 
   return (

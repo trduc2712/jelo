@@ -64,6 +64,7 @@ model User {
   refreshTokenExpiresAt DateTime?
   status                UserStatus @default(ACTIVE)
   lastLoginAt           DateTime?
+  lastActiveAt          DateTime?
   createdAt             DateTime   @default(now())
   updatedAt             DateTime   @updatedAt
 
@@ -74,6 +75,7 @@ model User {
 model Category {
   id   Int    @id @default(autoincrement())
   name String
+  slug String
 
   products Product[]
 }
